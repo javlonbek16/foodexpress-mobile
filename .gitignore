@@ -1,16 +1,63 @@
+# =========================
+# Flutter / Dart
+# =========================
 .dart_tool/
-.packages
-build/
 .flutter-plugins
 .flutter-plugins-dependencies
-.pub-cache/
+.packages
 .pub/
-*.iml
-.idea/
-.vscode/
+.pub-cache/
+build/
+coverage/
+
+# Generated documentation
+doc/api/
+
+# =========================
+# Environment files
+# =========================
 .env
 .env.*
 !.env.example
-ios/Pods/
+
+# =========================
+# Android
+# =========================
 android/.gradle/
+android/local.properties
+android/app/debug
+android/app/profile
+android/app/release
+
+# =========================
+# iOS
+# =========================
+ios/Pods/
+ios/Flutter/.last_build_id
+
+# =========================
+# IDEs
+# =========================
+.idea/
+*.iml
+
+# VS Code
+.vscode/
+
+# =========================
+# Logs & Temporary Files
+# =========================
+*.log
+*.tmp
+*.swp
+
+# =========================
+# macOS
+# =========================
 .DS_Store
+
+# =========================
+# Symbolication / Obfuscation
+# =========================
+app.*.symbols
+app.*.map.json
