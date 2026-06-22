@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:foodexpress_mobile/features/auth/presentation/screens/register_screen.dart';
 
 void main() {
   runApp(const MyApp());
@@ -12,7 +13,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: "Food Express",
       debugShowCheckedModeBanner: false,
-      home: const Scaffold(body: Center(child: Text("Hello World!"))),
+      home: RegisterScreen(),
     );
   }
 }
