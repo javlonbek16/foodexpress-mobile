@@ -23,7 +23,7 @@ class AuthRemoteDataSource {
     String name,
     String email,
     String password,
-    String roleId,
+    int roleId,
     String otpToken,
   ) async {
     final response = await http.post(
