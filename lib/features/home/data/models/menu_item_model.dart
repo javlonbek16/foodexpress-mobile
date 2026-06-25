@@ -5,10 +5,10 @@ class MenuItemModel {
   final String name;
   final String description;
   final String price;
-  final String newPrice;
-  final String discount;
+  final String? newPrice;
+  final String? discount;
   final bool status;
-  final String promotion;
+  final String? promotion;
   final String imageUrl;
   final String deliveryTime;
 
@@ -19,28 +19,31 @@ class MenuItemModel {
     required this.name,
     required this.description,
     required this.price,
-    required this.newPrice,
-    required this.discount,
+    this.newPrice,
+    this.discount,
     required this.status,
-    required this.promotion,
+    this.promotion,
     required this.imageUrl,
     required this.deliveryTime,
   });
 
   factory MenuItemModel.fromJson(Map<String, dynamic> json) {
     return MenuItemModel(
-      id: json["id"],
-      restaurantId: json["restaurant"],
-      categoryId: json["category"],
-      name: json["name"],
-      description: json["description"],
-      price: json["price"],
-      newPrice: json["new_price"],
-      discount: json["discount"],
-      status: json["status"],
-      promotion: json["promotion"],
-      imageUrl: json["image_url"],
-      deliveryTime: json["delivery_time"],
+      id: json["id"] as int? ?? 0,
+      restaurantId: json["restaurant"]?.toString() ?? "",
+      categoryId: json["category"] as int? ?? 0,
+      name: json["name"]?.toString() ?? "Noma'lum taom",
+      description: json["description"]?.toString() ?? "",
+      price: json["price"]?.toString() ?? "0",
+
+      newPrice: json["new_price"]?.toString(),
+      discount: json["discount"]?.toString(),
+
+      status: json["discount_status"] == true || json["discount_status"] == "true",
+
+      promotion: json["promotion"]?.toString(),
+      imageUrl: json["img_product"]?.toString() ?? "",
+      deliveryTime: json["delivery_time"]?.toString() ?? "Noma'lum vaqt",
     );
   }
 
@@ -54,9 +57,9 @@ class MenuItemModel {
       "price": price,
       "new_price": newPrice,
       "discount": discount,
-      "status": status,
+      "discount_status": status,
       "promotion": promotion,
-      "image_url": imageUrl,
+      "img_product": imageUrl,
       "delivery_time": deliveryTime,
     };
   }
