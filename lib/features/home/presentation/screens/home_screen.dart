@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:foodexpress_mobile/features/home/data/datasources/home_remote_data_source.dart';
 import 'package:foodexpress_mobile/features/home/data/models/category_model.dart';
-import 'package:foodexpress_mobile/features/home/data/models/menu_item_model.dart';
+import 'package:foodexpress_mobile/features/home/data/models/restaurant_model.dart';
 import 'package:foodexpress_mobile/features/home/data/repositories/home_repository_impl.dart';
 import 'package:foodexpress_mobile/features/home/domain/repositories/home_repository.dart';
-import 'package:foodexpress_mobile/features/home/presentation/widgets/expandable_text.dart';
-import 'package:intl/intl.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -20,7 +18,8 @@ class _HomeScreenState extends State<HomeScreen> {
   bool _isLoading = true;
   String? _errorMessage;
   List<CategoryModel> _categories = [];
-  List<MenuItemModel> _menuItems = [];
+
+  List<RestaurantModel> _restaurants = [];
 
   @override
   void initState() {
@@ -33,11 +32,11 @@ class _HomeScreenState extends State<HomeScreen> {
 
   Future<void> _loadData() async {
     try {
-      final results = await Future.wait([_repository.getCategories(), _repository.getMenuItems()]);
+      final results = await Future.wait([_repository.getCategories(), _repository.getRestaurant()]);
 
       setState(() {
         _categories = results[0] as List<CategoryModel>;
-        _menuItems = results[1] as List<MenuItemModel>;
+        _restaurants = results[1] as List<RestaurantModel>;
         _isLoading = false;
       });
     } catch (e, s) {
@@ -136,7 +135,7 @@ class _HomeScreenState extends State<HomeScreen> {
             const Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text("Mashhur taomlar", style: TextStyle(fontWeight: FontWeight.bold)),
+                Text("Restoranlar", style: TextStyle(fontWeight: FontWeight.bold)),
                 Icon(Icons.arrow_forward_ios_rounded),
               ],
             ),
@@ -144,14 +143,14 @@ class _HomeScreenState extends State<HomeScreen> {
 
             SizedBox(
               height: 250,
-              child: _menuItems.isEmpty
+              child: _restaurants.isEmpty
                   ? const Center(child: Text("Taomlar topilmadi"))
                   : ListView.separated(
                       scrollDirection: Axis.horizontal,
-                      itemCount: _menuItems.length,
+                      itemCount: _restaurants.length,
                       itemBuilder: (context, index) {
-                        final menuItem = _menuItems[index];
-                        final price = double.tryParse(menuItem.price) ?? 0;
+                        final restaurant = _restaurants[index];
+
                         return Container(
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(20),
@@ -163,7 +162,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             crossAxisAlignment: .start,
                             children: [
                               Image.network(
-                                menuItem.imageUrl,
+                                restaurant.restaurantImage,
                                 fit: BoxFit.cover,
                                 height: 100,
                                 errorBuilder: (context, error, stackTrace) {
@@ -174,32 +173,11 @@ class _HomeScreenState extends State<HomeScreen> {
                               const SizedBox(height: 8),
 
                               Text(
-                                menuItem.name,
+                                restaurant.name,
                                 style: const TextStyle(fontWeight: FontWeight.bold),
                               ),
-                              ExpandableText(text: menuItem.description),
+                              Text(restaurant.description),
                               const Spacer(),
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Text("${NumberFormat('#,##0.##').format(price)} so'm"),
-                                  Text(menuItem.deliveryTime),
-                                ],
-                              ),
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                                children: [
-                                  IconButton.filledTonal(
-                                    onPressed: () {},
-                                    icon: const Icon(Icons.remove),
-                                  ),
-                                  FilledButton(onPressed: () {}, child: const Text("Qo'shish")),
-                                  IconButton.filledTonal(
-                                    onPressed: () {},
-                                    icon: const Icon(Icons.add),
-                                  ),
-                                ],
-                              ),
                             ],
                           ),
                         );

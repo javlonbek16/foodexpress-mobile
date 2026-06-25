@@ -1,11 +1,12 @@
 class RestaurantModel {
   final String restaurantId;
-  final String ownerUserId;
+  final int ownerUserId;
   final String name;
   final String description;
   final String address;
   final bool isOpen;
   final String createdAt;
+  final String restaurantImage;
 
   RestaurantModel({
     required this.restaurantId,
@@ -15,6 +16,7 @@ class RestaurantModel {
     required this.address,
     required this.isOpen,
     required this.createdAt,
+    required this.restaurantImage
   });
 
   factory RestaurantModel.fromJson(Map<String, dynamic> json) {
@@ -26,6 +28,7 @@ class RestaurantModel {
       address: json["address"],
       isOpen: json["is_open"],
       createdAt: json["created_at"],
+      restaurantImage: json["restaurant_img"] 
     );
   }
 
@@ -38,6 +41,7 @@ class RestaurantModel {
       "address": address,
       "is_open": isOpen,
       "created_at": createdAt,
+      "restaurant_img": restaurantImage
     };
   }
 }
