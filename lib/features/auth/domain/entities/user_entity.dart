@@ -1,7 +1,7 @@
 class UserEntity {
-  final String id;
-  final String email;
-  final String token;
+  final String userId;
+  final String role;
+  final String accessToken;
 
-  UserEntity({required this.id, required this.email, required this.token});
+  UserEntity({required this.userId, required this.role, required this.accessToken});
 }
