@@ -1,31 +1,17 @@
 class CategoryModel {
   final int categoryId;
-  final String restaurantId;
   final String categoryName;
-  final int sortOrder;
 
-  CategoryModel({
-    required this.categoryId,
-    required this.restaurantId,
-    required this.categoryName,
-    required this.sortOrder,
-  });
+  const CategoryModel({required this.categoryId, required this.categoryName});
 
   factory CategoryModel.fromJson(Map<String, dynamic> json) {
     return CategoryModel(
-      categoryId: json["id"],
-      restaurantId: json["restaurant"],
-      categoryName: json["name"],
-      sortOrder: json["sort_order"],
+      categoryId: int.tryParse(json["id"]?.toString() ?? "") ?? 0,
+      categoryName: json["name"]?.toString() ?? "",
     );
   }
 
   Map<String, dynamic> toJson() {
-    return {
-      "id": categoryId,
-      "restaurant": restaurantId,
-      "name": categoryName,
-      "sort_order": sortOrder,
-    };
+    return {"id": categoryId, "name": categoryName};
   }
 }

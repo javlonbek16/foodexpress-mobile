@@ -1,8 +1,4 @@
 import 'package:foodexpress_mobile/features/auth/domain/entities/user_entity.dart';
-// part of "auth_bloc.dart";
-
-
-
 
 abstract class AuthState {}
 
@@ -10,14 +6,21 @@ class AuthInitial extends AuthState {}
 
 class AuthLoading extends AuthState {}
 
-class AuthSuccess extends AuthState {
-  final UserEntity userEntity;
-
-  AuthSuccess({required this.userEntity});
+class Authenticated extends AuthState {
+  final UserEntity user;
+  Authenticated(this.user);
 }
 
-class AuthFailure extends AuthState {
-  final String errorMessage;
+class Unauthenticated extends AuthState {}
 
-  AuthFailure({required this.errorMessage});
+class AuthError extends AuthState {
+  final String message;
+  AuthError(this.message);
+}
+
+class OtpSentState extends AuthState {}
+
+class OtpVerifiedState extends AuthState {
+  final String otpToken;
+  OtpVerifiedState(this.otpToken);
 }

@@ -1,6 +1,8 @@
 import 'package:foodexpress_mobile/features/home/data/datasources/home_remote_data_source.dart';
+import 'package:foodexpress_mobile/features/home/data/models/banner_model.dart';
 import 'package:foodexpress_mobile/features/home/data/models/category_model.dart';
 import 'package:foodexpress_mobile/features/home/data/models/menu_item_model.dart';
+import 'package:foodexpress_mobile/features/home/data/models/restaurant_menu_item_model.dart';
 import 'package:foodexpress_mobile/features/home/data/models/restaurant_model.dart';
 import 'package:foodexpress_mobile/features/home/domain/repositories/home_repository.dart';
 
@@ -8,6 +10,11 @@ class HomeRepositoryImpl implements HomeRepository {
   final HomeRemoteDataSource homeRemoteDataSource;
 
   HomeRepositoryImpl(this.homeRemoteDataSource);
+
+  @override
+  Future<List<BannerModel>> getBanners() async {
+    return await homeRemoteDataSource.getBanners();
+  }
 
   @override
   Future<List<CategoryModel>> getCategories() async {
@@ -37,5 +44,10 @@ class HomeRepositoryImpl implements HomeRepository {
   @override
   Future<RestaurantModel> getRestaurantById(String id) async {
     return await homeRemoteDataSource.getRestaurantById(id);
+  }
+
+  @override
+  Future<RestaurantMenuItemModel> getMenuItemsByRestaurant(String id) async {
+    return await homeRemoteDataSource.getMenuItemsByRestaurant(id);
   }
 }

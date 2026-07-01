@@ -1,7 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:foodexpress_mobile/features/home/presentation/screens/home_screen.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:foodexpress_mobile/core/di/injection_container.dart';
+import 'package:foodexpress_mobile/features/auth/presentation/blocs/auth_bloc.dart';
+import 'package:foodexpress_mobile/splash_screen.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await setupLocator();
   runApp(const MyApp());
 }
 
@@ -10,10 +15,13 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: "Food Express",
-      debugShowCheckedModeBanner: false,
-      home: HomeScreen(),
+    return MultiBlocProvider(
+      providers: [BlocProvider(create: (_) => sl<AuthBloc>())],
+      child: MaterialApp(
+        debugShowCheckedModeBanner: false,
+        title: "Food Express",
+        home: const SplashScreen(),
+      ),
     );
   }
 }

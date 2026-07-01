@@ -1,47 +1,59 @@
-import 'dart:convert';
-
-import 'package:http/http.dart' as http;
+import 'package:dio/dio.dart';
+import 'package:foodexpress_mobile/core/network/dio_client.dart';
+import 'package:foodexpress_mobile/features/auth/data/models/user_model.dart';
 
 class AuthRemoteDataSource {
-  final String baseUrl = "http://13.63.45.70:3001/";
+  final DioClient dioClient;
+
+  AuthRemoteDataSource(this.dioClient);
 
   Future<Map<String, dynamic>> login(String email, String password) async {
-    final response = await http.post(
-      Uri.parse("$baseUrl/auth/login"),
-      headers: {"Content-Type": "application/json"},
-      body: jsonEncode({"email": email, "password": password}),
-    );
-
-    if (response.statusCode == 200 || response.statusCode == 201) {
-      return jsonDecode(response.body);
-    } else {
-      throw Exception("Login qilishda xatolik!");
+    try {
+      final response = await dioClient.dio.post(
+        "/auth/login",
+        data: {"email": email, "password": password},
+      );
+      return response.data;
+    } on DioException catch (e) {
+      throw Exception(e.response?.data["message"] ?? "Login qilishda xatolik! \nError: $e");
     }
   }
 
-  Future<Map<String, dynamic>> register(
-    String name,
-    String email,
-    String password,
-    int roleId,
-    String otpToken,
-  ) async {
-    final response = await http.post(
-      Uri.parse("$baseUrl/auth/register"),
-      headers: {"Content-Type": "application/json"},
-      body: jsonEncode({
-        "name": name,
-        "email": email,
-        "password": password,
-        "role_id": roleId,
-        "otpToken": otpToken,
-      }),
-    );
+  Future<void> sendOtp(String email) async {
+    try {
+      await dioClient.dio.post('/auth/sent-otp', data: {"email": email});
+    } on DioException catch (e) {
+      throw Exception(e.response?.data['message'] ?? "OTP yuborishda xatolik!");
+    }
+  }
 
-    if (response.statusCode == 200 || response.statusCode == 201) {
-      return jsonDecode(response.body);
-    } else {
-      throw Exception("Register qilishda xatolik!");
+  Future<String> verifyOtp(String email, String code) async {
+    try {
+      final response = await dioClient.dio.post(
+        '/auth/verify-otp',
+        data: {"email": email, "code": code},
+      );
+      return response.data["otpToken"];
+    } on DioException catch (e) {
+      throw Exception("Kodni tasdiqlashda xatolik!-> $e");
+    }
+  }
+
+  Future<void> register(Map<String, dynamic> data) async {
+    try {
+      await dioClient.dio.post('/auth/register', data: data);
+    } on DioException catch (e) {
+      throw Exception(e.response?.data["message"] ?? "Ro'yxatdan o'tishda xatolik!");
+    }
+  }
+
+  Future<UserModel> getMe() async {
+    try {
+      final response = await dioClient.dio.get('/auth/me');
+
+      return UserModel.fromJson(response.data);
+    } on DioException catch (e) {
+      throw Exception(e);
     }
   }
 }
