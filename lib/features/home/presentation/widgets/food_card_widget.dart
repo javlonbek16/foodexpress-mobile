@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:foodexpress_mobile/features/home/presentation/widgets/image_widget.dart';
 
 class FoodCardWidget extends StatelessWidget {
   const FoodCardWidget({
@@ -41,7 +42,7 @@ class FoodCardWidget extends StatelessWidget {
                   Positioned.fill(
                     child: ClipRRect(
                       borderRadius: const BorderRadius.vertical(top: Radius.circular(18)),
-                      child: Image.network(image, fit: BoxFit.cover),
+                      child: ImageWidget(image: image),
                     ),
                   ),
 

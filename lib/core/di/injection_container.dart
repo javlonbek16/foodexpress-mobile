@@ -7,11 +7,17 @@ import 'package:foodexpress_mobile/features/auth/data/repositories/auth_reposito
 import 'package:foodexpress_mobile/features/auth/domain/repositories/auth_repository.dart';
 import 'package:foodexpress_mobile/features/auth/domain/usecases/auth_use_cases.dart';
 import 'package:foodexpress_mobile/features/auth/presentation/blocs/auth_bloc.dart';
+import 'package:foodexpress_mobile/features/home/data/datasources/home_remote_data_source.dart';
+import 'package:foodexpress_mobile/features/home/data/repositories/home_repository_impl.dart';
+import 'package:foodexpress_mobile/features/home/domain/repositories/home_repository.dart';
+import 'package:foodexpress_mobile/features/home/presentation/blocs/banner_bloc/banner_bloc.dart';
+import 'package:foodexpress_mobile/features/home/presentation/blocs/general_category_bloc/category_bloc.dart';
 import 'package:get_it/get_it.dart';
 
 final sl = GetIt.instance;
 
 Future<void> setupLocator() async {
+  //packages
   sl.registerLazySingleton(() => const FlutterSecureStorage());
 
   sl.registerLazySingleton(() => SecureStorageService(sl()));
@@ -26,11 +32,19 @@ Future<void> setupLocator() async {
     instanceName: 'home_dio',
   );
 
+  //datasources
   sl.registerLazySingleton(() => AuthRemoteDataSource(sl<DioClient>(instanceName: 'auth_dio')));
+  sl.registerLazySingleton(() => HomeRemoteDataSource(sl<DioClient>(instanceName: "home_dio")));
 
+  //repositories
   sl.registerLazySingleton<AuthRepository>(() => AuthRepositoryImpl(sl(), sl()));
+  sl.registerLazySingleton<HomeRepository>(() => HomeRepositoryImpl(sl<HomeRemoteDataSource>()));
 
+  //usecases
   sl.registerLazySingleton(() => AuthUseCases(sl()));
 
+  //blocs
   sl.registerFactory(() => AuthBloc(sl(), sl()));
+  sl.registerFactory(() => BannerBloc(sl()));
+  sl.registerFactory(() => CategoryBloc(sl()));
 }
