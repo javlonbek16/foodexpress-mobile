@@ -22,18 +22,8 @@ class HomeRepositoryImpl implements HomeRepository {
   }
 
   @override
-  Future<CategoryModel> getCategoryById(int id) async {
-    return await homeRemoteDataSource.getCategoryById(id);
-  }
-
-  @override
   Future<List<MenuItemModel>> getMenuItems() async {
     return await homeRemoteDataSource.getMenuItems();
-  }
-
-  @override
-  Future<MenuItemModel> getMenuItemById(int id) async {
-    return await homeRemoteDataSource.getMenuItemById(id);
   }
 
   @override
@@ -47,7 +37,7 @@ class HomeRepositoryImpl implements HomeRepository {
   }
 
   @override
-  Future<RestaurantMenuItemModel> getMenuItemsByRestaurant(String id) async {
+  Future<List<RestaurantMenuItemModel>> getMenuItemsByRestaurant(String id) async {
     return await homeRemoteDataSource.getMenuItemsByRestaurant(id);
   }
 }

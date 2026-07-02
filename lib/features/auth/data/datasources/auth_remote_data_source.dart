@@ -49,7 +49,10 @@ class AuthRemoteDataSource {
 
   Future<UserModel> getMe() async {
     try {
-      final response = await dioClient.dio.get('/auth/me');
+      final response = await dioClient.dio.get(
+        '/auth/me',
+        options: Options(extra: {'requiresToken': true}),
+      );
 
       return UserModel.fromJson(response.data);
     } on DioException catch (e) {

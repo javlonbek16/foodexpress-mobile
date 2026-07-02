@@ -9,15 +9,11 @@ abstract class HomeRepository {
 
   Future<List<CategoryModel>> getCategories();
 
-  Future<CategoryModel> getCategoryById(int id);
-
   Future<List<MenuItemModel>> getMenuItems();
-
-  Future<MenuItemModel> getMenuItemById(int id);
 
   Future<List<RestaurantModel>> getRestaurant();
 
   Future<RestaurantModel> getRestaurantById(String id);
 
-  Future<RestaurantMenuItemModel> getMenuItemsByRestaurant(String id);
+  Future<List<RestaurantMenuItemModel>> getMenuItemsByRestaurant(String id);
 }

@@ -20,15 +20,48 @@ class DioClient {
     _dio.interceptors.add(
       QueuedInterceptorsWrapper(
         onRequest: (options, handler) async {
-          final accessToken = await storageService.getAccessToken();
+          // final accessToken = await storageService.getAccessToken();
 
-          if (accessToken != null) {
-            options.headers["Authorization"] = "Bearer $accessToken";
+          // if (accessToken != null) {
+          //   options.headers["Authorization"] = "Bearer $accessToken";
+          // }
+
+          final bool requiresToken = options.extra["requiresToken"] ?? true;
+
+          if (requiresToken) {
+            final accessToken = await storageService.getAccessToken();
+            if (accessToken != null) {
+              options.headers["Authorization"] = "Bearer $accessToken";
+            }
           }
           return handler.next(options);
         },
         onError: (error, handler) async {
+          // if (error.response?.statusCode == 401) {
+          //   final isRefreshed = await _refreshToken();
+
+          //   if (isRefreshed) {
+          //     final newAccessToken = await storageService.getAccessToken();
+          //     error.requestOptions.headers["Authorization"] = "Bearer $newAccessToken";
+
+          //     try {
+          //       final response = await _dio.fetch(error.requestOptions);
+          //       return handler.resolve(response);
+          //     } on DioException catch (e) {
+          //       return handler.next(e);
+          //     }
+          //   } else {
+          //     throw Exception("SESSION_EXPIRED");
+          //   }
+          // }
+
+          final bool requiresToken = error.requestOptions.extra["requiresToken"] ?? true;
+
           if (error.response?.statusCode == 401) {
+            if (!requiresToken) {
+              return handler.next(error);
+            }
+
             final isRefreshed = await _refreshToken();
 
             if (isRefreshed) {
@@ -41,9 +74,15 @@ class DioClient {
               } on DioException catch (e) {
                 return handler.next(e);
               }
-            } else {
-              throw Exception("SESSION_EXPIRED");
             }
+            return handler.reject(
+              DioException(
+                requestOptions: error.requestOptions,
+                response: error.response,
+                type: DioExceptionType.badResponse,
+                error: "SESSION_EXPIRED",
+              ),
+            );
           }
           return handler.next(error);
         },
