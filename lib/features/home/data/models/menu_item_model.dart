@@ -47,7 +47,7 @@ class MenuItemModel {
     return MenuItemModel(
       id: int.tryParse(json['id']?.toString() ?? '') ?? 0,
       categories:
-          (json['category'] as List?)?.map((e) => MenuCategoryModel.fromJson(e)).toList() ?? [],
+          (json['categories'] as List?)?.map((e) => MenuCategoryModel.fromJson(e)).toList() ?? [],
       name: json['name']?.toString() ?? '',
       description: json['description']?.toString() ?? '',
       price: json['price']?.toString() ?? '0',

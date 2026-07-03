@@ -12,6 +12,9 @@ import 'package:foodexpress_mobile/features/home/data/repositories/home_reposito
 import 'package:foodexpress_mobile/features/home/domain/repositories/home_repository.dart';
 import 'package:foodexpress_mobile/features/home/presentation/blocs/banner_bloc/banner_bloc.dart';
 import 'package:foodexpress_mobile/features/home/presentation/blocs/general_category_bloc/category_bloc.dart';
+import 'package:foodexpress_mobile/features/home/presentation/blocs/restaurant_bloc/restaurant_bloc.dart';
+import 'package:foodexpress_mobile/features/home/presentation/blocs/restaurant_detail_bloc/restaurant_detail_bloc.dart';
+import 'package:foodexpress_mobile/features/home/presentation/blocs/restaurant_menu_bloc/restaurant_menu_bloc.dart';
 import 'package:get_it/get_it.dart';
 
 final sl = GetIt.instance;
@@ -47,4 +50,7 @@ Future<void> setupLocator() async {
   sl.registerFactory(() => AuthBloc(sl(), sl()));
   sl.registerFactory(() => BannerBloc(sl()));
   sl.registerFactory(() => CategoryBloc(sl()));
+  sl.registerFactory(() => RestaurantBloc(sl()));
+  sl.registerFactory(() => RestaurantDetailBloc(sl()));
+  sl.registerFactory(() => RestaurantMenuBloc(sl()));
 }
