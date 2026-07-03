@@ -27,7 +27,7 @@ class HomeRepositoryImpl implements HomeRepository {
   }
 
   @override
-  Future<List<RestaurantModel>> getRestaurant() async {
+  Future<List<RestaurantModel>> getRestaurants() async {
     return await homeRemoteDataSource.getRestaurants();
   }
 

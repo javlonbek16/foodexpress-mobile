@@ -1,13 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:foodexpress_mobile/features/home/data/models/category_model.dart';
 import 'package:foodexpress_mobile/features/home/presentation/blocs/general_category_bloc/category_bloc.dart';
 import 'package:foodexpress_mobile/features/home/presentation/blocs/general_category_bloc/category_state.dart';
-import 'package:foodexpress_mobile/features/home/presentation/widgets/general_category_widget.dart';
+import 'package:foodexpress_mobile/features/home/presentation/widgets/category_widgets/general_category_widget.dart';
 
 class CategorySection extends StatelessWidget {
-  final List<CategoryModel> categories;
-  const CategorySection({super.key, required this.categories});
+  const CategorySection({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -32,14 +30,14 @@ class CategorySection extends StatelessWidget {
 
             SizedBox(
               height: 52,
-              child: categories.isEmpty
+              child: state.categories.isEmpty
                   ? const Center(child: Text("Kategoriyalar topilmadi"))
                   : ListView.separated(
                       scrollDirection: Axis.horizontal,
-                      itemCount: categories.length,
+                      itemCount: state.categories.length,
                       separatorBuilder: (_, _) => const SizedBox(width: 10),
                       itemBuilder: (context, index) {
-                        final category = categories[index];
+                        final category = state.categories[index];
                         return GeneralCategoryWidget(category: category);
                       },
                     ),

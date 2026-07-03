@@ -11,7 +11,7 @@ abstract class HomeRepository {
 
   Future<List<MenuItemModel>> getMenuItems();
 
-  Future<List<RestaurantModel>> getRestaurant();
+  Future<List<RestaurantModel>> getRestaurants();
 
   Future<RestaurantModel> getRestaurantById(String id);
 

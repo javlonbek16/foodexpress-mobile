@@ -3,7 +3,6 @@ import 'package:foodexpress_mobile/features/home/data/models/banner_model.dart';
 class BannerState {
   final bool isLoading;
   final List<BannerModel> banners;
-
   final String? error;
 
   const BannerState({this.isLoading = false, this.banners = const [], this.error});
