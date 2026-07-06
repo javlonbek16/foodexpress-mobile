@@ -3,6 +3,8 @@ import 'package:foodexpress_mobile/core/network/dio_client.dart';
 import 'package:foodexpress_mobile/core/network/network_executor.dart';
 import 'package:foodexpress_mobile/features/home/data/models/banner_model.dart';
 import 'package:foodexpress_mobile/features/home/data/models/category_model.dart';
+import 'package:foodexpress_mobile/features/home/data/models/category_with_items_model.dart';
+import 'package:foodexpress_mobile/features/home/data/models/menu_category_model.dart';
 import 'package:foodexpress_mobile/features/home/data/models/menu_item_model.dart';
 import 'package:foodexpress_mobile/features/home/data/models/restaurant_menu_item_model.dart';
 import 'package:foodexpress_mobile/features/home/data/models/restaurant_model.dart';
@@ -60,6 +62,42 @@ class HomeRemoteDataSource {
       );
 
       return (response.data as List).map((e) => RestaurantMenuItemModel.fromJson(e)).toList();
+    });
+  }
+
+  Future<List<RestaurantModel>> getRestaurantsByCategory(String categoryName) async {
+    return NetworkExecutor.execute(() async {
+      final response = await dio.get(
+        "/api/category/restaurants/$categoryName",
+        options: Options(extra: {"requiresToken": false}),
+      );
+
+      return (response.data as List).map((e) => RestaurantModel.fromJson(e)).toList();
+    });
+  }
+
+  Future<List<MenuCategoryModel>> getMenuCategoryByRestaurant(String restaurantId) async {
+    return NetworkExecutor.execute(() async {
+      final response = await dio.get(
+        "/api/restaurants/$restaurantId/menucategory",
+        options: Options(extra: {"requiresToken": false}),
+      );
+
+      return (response.data as List).map((e) => MenuCategoryModel.fromJson(e)).toList();
+    });
+  }
+
+  Future<List<CategoryWithItemsModel>> getMenuItemsByCategory(
+    String restaurantId,
+    String categoryName,
+  ) async {
+    return NetworkExecutor.execute(() async {
+      final response = await dio.get(
+        "/api/restaurants/$restaurantId/menu_categories/$categoryName/items",
+        options: Options(extra: {"requiresToken": false}),
+      );
+
+      return (response.data as List).map((e) => CategoryWithItemsModel.fromJson(e)).toList();
     });
   }
 }

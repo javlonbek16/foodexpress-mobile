@@ -1,6 +1,8 @@
 import 'package:foodexpress_mobile/features/home/data/datasources/home_remote_data_source.dart';
 import 'package:foodexpress_mobile/features/home/data/models/banner_model.dart';
 import 'package:foodexpress_mobile/features/home/data/models/category_model.dart';
+import 'package:foodexpress_mobile/features/home/data/models/category_with_items_model.dart';
+import 'package:foodexpress_mobile/features/home/data/models/menu_category_model.dart';
 import 'package:foodexpress_mobile/features/home/data/models/menu_item_model.dart';
 import 'package:foodexpress_mobile/features/home/data/models/restaurant_menu_item_model.dart';
 import 'package:foodexpress_mobile/features/home/data/models/restaurant_model.dart';
@@ -39,5 +41,23 @@ class HomeRepositoryImpl implements HomeRepository {
   @override
   Future<List<RestaurantMenuItemModel>> getMenuItemsByRestaurant(String id) async {
     return await homeRemoteDataSource.getMenuItemsByRestaurant(id);
+  }
+
+  @override
+  Future<List<RestaurantModel>> getRestaurantsByCategory(String categoryName) async {
+    return await homeRemoteDataSource.getRestaurantsByCategory(categoryName);
+  }
+
+  @override
+  Future<List<MenuCategoryModel>> getMenuCategoryByRestaurant(String restaurantId) {
+    return homeRemoteDataSource.getMenuCategoryByRestaurant(restaurantId);
+  }
+
+  @override
+  Future<List<CategoryWithItemsModel>> getMenuItemsByCategory(
+    String restaurantId,
+    String categoryName,
+  ) async {
+    return await homeRemoteDataSource.getMenuItemsByCategory(restaurantId, categoryName);
   }
 }

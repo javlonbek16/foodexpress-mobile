@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:foodexpress_mobile/features/home/data/models/category_model.dart';
+import 'package:foodexpress_mobile/features/home/data/models/menu_category_model.dart';
 
-class GeneralCategoryWidget extends StatelessWidget {
-  final CategoryModel category;
+class MenuCategoryWidget extends StatelessWidget {
+  final MenuCategoryModel category;
   final void Function()? onTap;
-  const GeneralCategoryWidget({super.key, required this.category, required this.onTap});
+  const MenuCategoryWidget({super.key, required this.category, required this.onTap});
 
   @override
   Widget build(BuildContext context) {
@@ -22,7 +22,7 @@ class GeneralCategoryWidget extends StatelessWidget {
           ),
           child: Center(
             child: Text(
-              category.categoryName,
+              category.name,
               style: const TextStyle(fontSize: 15, fontWeight: FontWeight.w600),
             ),
           ),
