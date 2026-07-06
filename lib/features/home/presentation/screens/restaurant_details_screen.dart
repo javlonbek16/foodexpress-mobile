@@ -6,6 +6,7 @@ import 'package:foodexpress_mobile/features/home/presentation/blocs/restaurant_d
 import 'package:foodexpress_mobile/features/home/presentation/blocs/restaurant_menu_bloc/restaurant_menu_bloc.dart';
 import 'package:foodexpress_mobile/features/home/presentation/blocs/restaurant_menu_bloc/restaurant_menu_event.dart';
 import 'package:foodexpress_mobile/features/home/presentation/widgets/restaurant_widgets/restaurant_detail_section.dart';
+import 'package:foodexpress_mobile/features/home/presentation/widgets/restaurant_widgets/restaurant_menu_category_widget.dart';
 import 'package:foodexpress_mobile/features/home/presentation/widgets/restaurant_widgets/restaurant_menu_section.dart';
 
 class RestaurantDetailsScreen extends StatelessWidget {
@@ -29,7 +30,13 @@ class RestaurantDetailsScreen extends StatelessWidget {
         body: SingleChildScrollView(
           child: Padding(
             padding: const EdgeInsets.all(12),
-            child: Column(children: [RestaurantDetailSection(), RestaurantMenuSection()]),
+            child: Column(
+              children: [
+                RestaurantDetailSection(),
+                RestaurantMenuCategoryWidget(),
+                RestaurantMenuSection(),
+              ],
+            ),
           ),
         ),
       ),

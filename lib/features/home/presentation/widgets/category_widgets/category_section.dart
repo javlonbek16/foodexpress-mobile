@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:foodexpress_mobile/features/home/presentation/blocs/general_category_bloc/category_bloc.dart';
 import 'package:foodexpress_mobile/features/home/presentation/blocs/general_category_bloc/category_state.dart';
+import 'package:foodexpress_mobile/features/home/presentation/blocs/restaurant_bloc/restaurant_bloc.dart';
+import 'package:foodexpress_mobile/features/home/presentation/blocs/restaurant_bloc/restaurant_event.dart';
 import 'package:foodexpress_mobile/features/home/presentation/widgets/category_widgets/general_category_widget.dart';
 
 class CategorySection extends StatelessWidget {
@@ -38,7 +40,14 @@ class CategorySection extends StatelessWidget {
                       separatorBuilder: (_, _) => const SizedBox(width: 10),
                       itemBuilder: (context, index) {
                         final category = state.categories[index];
-                        return GeneralCategoryWidget(category: category);
+                        return GeneralCategoryWidget(
+                          category: category,
+                          onTap: () {
+                            context.read<RestaurantBloc>().add(
+                              RestaurantCategoryChanged(category.categoryName),
+                            );
+                          },
+                        );
                       },
                     ),
             ),

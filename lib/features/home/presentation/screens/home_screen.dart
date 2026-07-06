@@ -16,35 +16,33 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text("FOOD EXPRESS MOBILE"),
-        centerTitle: true,
-        surfaceTintColor: Colors.white,
-      ),
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(create: (context) => sl<BannerBloc>()..add(BannerFetched())),
+        BlocProvider(create: (context) => sl<CategoryBloc>()..add(CategoryFetched())),
+        BlocProvider(create: (context) => sl<RestaurantBloc>()..add(RestaurantFetched())),
+      ],
+      child: Scaffold(
+        appBar: AppBar(
+          title: const Text("FOOD EXPRESS MOBILE"),
+          centerTitle: true,
+          surfaceTintColor: Colors.white,
+        ),
 
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.all(12),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              BlocProvider(
-                create: (context) => sl<BannerBloc>()..add(BannerFetched()),
-                child: BannerSection(),
-              ),
-              const SizedBox(height: 20),
-              BlocProvider(
-                create: (context) => sl<CategoryBloc>()..add(CategoryFetched()),
-                child: CategorySection(),
-              ),
-              const SizedBox(height: 20),
-              BlocProvider(
-                create: (context) => sl<RestaurantBloc>()..add(RestaurantFetched()),
-                child: RestaurantSection(),
-              ),
-              SizedBox(height: 100),
-            ],
+        body: SingleChildScrollView(
+          child: Padding(
+            padding: const EdgeInsets.all(12),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                BannerSection(),
+                const SizedBox(height: 20),
+                CategorySection(),
+                const SizedBox(height: 20),
+                RestaurantSection(),
+                SizedBox(height: 100),
+              ],
+            ),
           ),
         ),
       ),

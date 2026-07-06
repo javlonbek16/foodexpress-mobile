@@ -11,8 +11,8 @@ class DioClient {
     _dio = Dio(
       BaseOptions(
         baseUrl: baseUrl,
-        connectTimeout: const Duration(seconds: 10),
-        receiveTimeout: const Duration(seconds: 10),
+        connectTimeout: const Duration(seconds: 15),
+        receiveTimeout: const Duration(seconds: 15),
         headers: {"Content-Type": "application/json"},
       ),
     );
@@ -20,12 +20,6 @@ class DioClient {
     _dio.interceptors.add(
       QueuedInterceptorsWrapper(
         onRequest: (options, handler) async {
-          // final accessToken = await storageService.getAccessToken();
-
-          // if (accessToken != null) {
-          //   options.headers["Authorization"] = "Bearer $accessToken";
-          // }
-
           final bool requiresToken = options.extra["requiresToken"] ?? true;
 
           if (requiresToken) {
@@ -37,24 +31,6 @@ class DioClient {
           return handler.next(options);
         },
         onError: (error, handler) async {
-          // if (error.response?.statusCode == 401) {
-          //   final isRefreshed = await _refreshToken();
-
-          //   if (isRefreshed) {
-          //     final newAccessToken = await storageService.getAccessToken();
-          //     error.requestOptions.headers["Authorization"] = "Bearer $newAccessToken";
-
-          //     try {
-          //       final response = await _dio.fetch(error.requestOptions);
-          //       return handler.resolve(response);
-          //     } on DioException catch (e) {
-          //       return handler.next(e);
-          //     }
-          //   } else {
-          //     throw Exception("SESSION_EXPIRED");
-          //   }
-          // }
-
           final bool requiresToken = error.requestOptions.extra["requiresToken"] ?? true;
 
           if (error.response?.statusCode == 401) {
