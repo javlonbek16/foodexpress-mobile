@@ -18,8 +18,9 @@ class RestaurantMenuBloc extends Bloc<RestaurantMenuEvent, RestaurantMenuState> 
     try {
       final categories = await repository.getMenuCategoryByRestaurant(event.id);
       // final menus = await repository.getMenuItemsByRestaurant(event.id);
-      final result = await repository.getMenuItemsByRestaurant(event.id);
-      final foods = result.expand((e) => e.items).toList();
+      final foods = await repository.getMenuItemsByRestaurant(event.id);
+      // final foods = result.expand((e) => e.items).toList();
+      
       emit(state.copyWith(isLoading: false, categories: categories, food: foods));
     } catch (e) {
       emit(state.copyWith(isLoading: false, error: e.toString()));

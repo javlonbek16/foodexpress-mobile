@@ -3,10 +3,8 @@ import 'package:foodexpress_mobile/core/network/dio_client.dart';
 import 'package:foodexpress_mobile/core/network/network_executor.dart';
 import 'package:foodexpress_mobile/features/home/data/models/banner_model.dart';
 import 'package:foodexpress_mobile/features/home/data/models/category_model.dart';
-import 'package:foodexpress_mobile/features/home/data/models/category_with_items_model.dart';
 import 'package:foodexpress_mobile/features/home/data/models/menu_category_model.dart';
 import 'package:foodexpress_mobile/features/home/data/models/menu_item_model.dart';
-import 'package:foodexpress_mobile/features/home/data/models/restaurant_menu_item_model.dart';
 import 'package:foodexpress_mobile/features/home/data/models/restaurant_model.dart';
 
 class HomeRemoteDataSource {
@@ -54,14 +52,14 @@ class HomeRemoteDataSource {
     });
   }
 
-  Future<List<RestaurantMenuItemModel>> getMenuItemsByRestaurant(String id) async {
+  Future<List<MenuItemModel>> getMenuItemsByRestaurant(String id) async {
     return NetworkExecutor.execute(() async {
       final response = await dio.get(
-        "/api/restaurants/$id/menu-items",
+        "/api/restaurants/$id/menu",
         options: Options(extra: {"requiresToken": false}),
       );
 
-      return (response.data as List).map((e) => RestaurantMenuItemModel.fromJson(e)).toList();
+      return (response.data as List).map((e) => MenuItemModel.fromJson(e)).toList();
     });
   }
 
@@ -87,7 +85,7 @@ class HomeRemoteDataSource {
     });
   }
 
-  Future<List<CategoryWithItemsModel>> getMenuItemsByCategory(
+  Future<List<MenuItemModel>> getMenuItemsByCategory(
     String restaurantId,
     String categoryName,
   ) async {
@@ -97,7 +95,7 @@ class HomeRemoteDataSource {
         options: Options(extra: {"requiresToken": false}),
       );
 
-      return (response.data as List).map((e) => CategoryWithItemsModel.fromJson(e)).toList();
+      return (response.data as List).map((e) => MenuItemModel.fromJson(e)).toList();
     });
   }
 }
