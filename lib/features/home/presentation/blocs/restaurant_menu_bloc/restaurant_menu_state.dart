@@ -27,7 +27,7 @@ class RestaurantMenuState {
       isLoading: isLoading ?? this.isLoading,
       categories: categories ?? this.categories,
       food: food ?? this.food,
-      selectedCategory: selectedCategory ?? this.selectedCategory,
+      selectedCategory: selectedCategory,
       error: error,
     );
   }

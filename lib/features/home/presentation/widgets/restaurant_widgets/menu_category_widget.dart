@@ -4,12 +4,18 @@ import 'package:foodexpress_mobile/features/home/data/models/menu_category_model
 class MenuCategoryWidget extends StatelessWidget {
   final MenuCategoryModel category;
   final void Function()? onTap;
-  const MenuCategoryWidget({super.key, required this.category, required this.onTap});
+  final bool isSelected;
+  const MenuCategoryWidget({
+    super.key,
+    required this.category,
+    required this.onTap,
+    required this.isSelected,
+  });
 
   @override
   Widget build(BuildContext context) {
     return Material(
-      color: Colors.grey.shade100,
+      color: isSelected ? Colors.blue.shade100 : Colors.grey.shade100,
       borderRadius: BorderRadius.circular(18),
       child: InkWell(
         onTap: onTap,

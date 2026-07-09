@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:foodexpress_mobile/core/extensions/price_extension.dart';
 import 'package:foodexpress_mobile/features/home/presentation/widgets/image_widget.dart';
 
 class FoodCardWidget extends StatelessWidget {
@@ -7,20 +8,22 @@ class FoodCardWidget extends StatelessWidget {
     required this.name,
     required this.image,
     required this.price,
-    required this.rating,
     required this.duration,
+    required this.quantity,
     this.onTap,
     this.onAdd,
+    this.onRemove,
   });
 
   final String name;
   final String image;
   final String price;
-  final double rating;
   final String duration;
+  final int quantity;
 
   final VoidCallback? onTap;
   final VoidCallback? onAdd;
+  final VoidCallback? onRemove;
 
   @override
   Widget build(BuildContext context) {
@@ -36,30 +39,10 @@ class FoodCardWidget extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Expanded(
-              flex: 6,
-              child: Stack(
-                children: [
-                  Positioned.fill(
-                    child: ClipRRect(
-                      borderRadius: const BorderRadius.vertical(top: Radius.circular(18)),
-                      child: ImageWidget(image: image),
-                    ),
-                  ),
-
-                  Positioned(
-                    top: 10,
-                    right: 10,
-                    child: Container(
-                      width: 34,
-                      height: 34,
-                      decoration: BoxDecoration(
-                        color: Colors.white.withValues(alpha: .95),
-                        shape: BoxShape.circle,
-                      ),
-                      child: const Icon(Icons.favorite_border, size: 18),
-                    ),
-                  ),
-                ],
+              flex: 4,
+              child: ClipRRect(
+                borderRadius: const BorderRadius.vertical(top: Radius.circular(18)),
+                child: ImageWidget(image: image),
               ),
             ),
 
@@ -81,17 +64,7 @@ class FoodCardWidget extends StatelessWidget {
 
                     Row(
                       children: [
-                        const Icon(Icons.star_rounded, color: Colors.amber, size: 18),
-
-                        const SizedBox(width: 3),
-
-                        Text(
-                          rating.toString(),
-                          style: TextStyle(color: Colors.grey.shade700, fontSize: 12),
-                        ),
-
                         const Spacer(),
-
                         Icon(Icons.schedule_outlined, size: 16, color: Colors.grey.shade600),
 
                         const SizedBox(width: 4),
@@ -106,7 +79,7 @@ class FoodCardWidget extends StatelessWidget {
                       children: [
                         Expanded(
                           child: Text(
-                            price,
+                            double.parse(price).formattedPrice,
                             style: const TextStyle(
                               fontSize: 16,
                               fontWeight: FontWeight.bold,
@@ -114,22 +87,22 @@ class FoodCardWidget extends StatelessWidget {
                             ),
                           ),
                         ),
-
-                        InkWell(
-                          borderRadius: BorderRadius.circular(12),
-                          onTap: onAdd,
-                          child: Container(
-                            width: 38,
-                            height: 38,
-                            decoration: BoxDecoration(
-                              color: Theme.of(context).primaryColor,
-                              borderRadius: BorderRadius.circular(12),
-                            ),
-                            child: const Icon(Icons.add, color: Colors.white, size: 22),
-                          ),
-                        ),
                       ],
                     ),
+
+                    quantity == 0
+                        ? SizedBox(
+                            width: double.infinity,
+                            child: FilledButton(onPressed: onAdd, child: const Text('Add to Cart')),
+                          )
+                        : Row(
+                            mainAxisAlignment: .spaceBetween,
+                            children: [
+                              IconButton(onPressed: onRemove, icon: Icon(Icons.remove)),
+                              ElevatedButton(onPressed: () {}, child: Text(quantity.toString())),
+                              IconButton(onPressed: onAdd, icon: Icon(Icons.add)),
+                            ],
+                          ),
                   ],
                 ),
               ),

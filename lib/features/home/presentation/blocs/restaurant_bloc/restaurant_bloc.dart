@@ -12,7 +12,7 @@ class RestaurantBloc extends Bloc<RestaurantEvent, RestaurantState> {
   }
 
   Future<void> _onFetched(RestaurantFetched event, Emitter<RestaurantState> emit) async {
-    emit(state.copyWith(isLoading: true, error: null));
+    emit(state.copyWith(isLoading: true, error: null, selectedCategory: null));
 
     try {
       final restaurants = await repository.getRestaurants();
@@ -24,7 +24,7 @@ class RestaurantBloc extends Bloc<RestaurantEvent, RestaurantState> {
   }
 
   Future<void> _onChanged(RestaurantCategoryChanged event, Emitter<RestaurantState> emit) async {
-    emit(state.copyWith(isLoading: true, error: null));
+    emit(state.copyWith(isLoading: true, error: null, selectedCategory: event.categoryName));
 
     try {
       final restaurants = await repository.getRestaurantsByCategory(event.categoryName);

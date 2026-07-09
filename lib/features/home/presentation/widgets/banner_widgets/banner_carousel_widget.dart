@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:foodexpress_mobile/features/home/data/models/banner_model.dart';
+import 'package:foodexpress_mobile/features/home/presentation/screens/restaurant_details_screen.dart';
 import 'package:foodexpress_mobile/features/home/presentation/widgets/banner_widgets/banner_card_widget.dart';
 import 'package:foodexpress_mobile/features/home/presentation/widgets/banner_widgets/banner_indicator_widget.dart';
 
@@ -62,9 +63,21 @@ class _BannerCarouselWidgetState extends State<BannerCarouselWidget> {
             itemCount: widget.banners.length,
             onPageChanged: (index) => _currentPage.value = index,
             itemBuilder: (_, index) {
+              final banner = widget.banners[index];
               return Padding(
                 padding: const EdgeInsets.all(8),
-                child: BannerCardWidget(banner: widget.banners[index]),
+                child: GestureDetector(
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) =>
+                            RestaurantDetailsScreen(restaurantId: banner.restaurantId),
+                      ),
+                    );
+                  },
+                  child: BannerCardWidget(banner: banner),
+                ),
               );
             },
           ),

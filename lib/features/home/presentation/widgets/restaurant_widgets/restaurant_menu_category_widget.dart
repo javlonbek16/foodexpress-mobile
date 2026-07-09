@@ -3,11 +3,13 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:foodexpress_mobile/features/home/presentation/blocs/restaurant_menu_bloc/restaurant_menu_bloc.dart';
 import 'package:foodexpress_mobile/features/home/presentation/blocs/restaurant_menu_bloc/restaurant_menu_event.dart';
 import 'package:foodexpress_mobile/features/home/presentation/blocs/restaurant_menu_bloc/restaurant_menu_state.dart';
+import 'package:foodexpress_mobile/features/home/presentation/widgets/category_widgets/general_category_widget.dart';
 
 import 'package:foodexpress_mobile/features/home/presentation/widgets/restaurant_widgets/menu_category_widget.dart';
 
 class RestaurantMenuCategoryWidget extends StatelessWidget {
-  const RestaurantMenuCategoryWidget({super.key});
+  final String restaurantId;
+  const RestaurantMenuCategoryWidget({super.key, required this.restaurantId});
 
   @override
   Widget build(BuildContext context) {
@@ -17,11 +19,22 @@ class RestaurantMenuCategoryWidget extends StatelessWidget {
           height: 60,
           child: ListView.separated(
             scrollDirection: Axis.horizontal,
-            itemCount: state.categories.length,
+            itemCount: state.categories.length + 1,
             separatorBuilder: (_, _) => const SizedBox(width: 10),
             itemBuilder: (context, index) {
-              final category = state.categories[index];
+              if (index == 0) {
+                return CategoryChip(
+                  title: "All",
+                  isSelected: state.selectedCategory == null,
+                  onTap: () {
+                    context.read<RestaurantMenuBloc>().add(RestaurantMenuFetched(restaurantId));
+                  },
+                );
+              }
+              final category = state.categories[index - 1];
+              final isSelected = state.selectedCategory == category.name;
               return MenuCategoryWidget(
+                isSelected: isSelected,
                 category: category,
                 onTap: () {
                   context.read<RestaurantMenuBloc>().add(

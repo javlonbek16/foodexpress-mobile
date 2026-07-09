@@ -22,7 +22,7 @@ class RestaurantState {
     return RestaurantState(
       isLoading: isLoading ?? this.isLoading,
       restaurants: restaurants ?? this.restaurants,
-      selectedCategory: selectedCategory ?? this.selectedCategory,
+      selectedCategory: selectedCategory,
       error: error,
     );
   }

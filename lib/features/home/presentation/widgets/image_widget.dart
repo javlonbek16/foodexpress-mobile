@@ -11,6 +11,8 @@ class ImageWidget extends StatelessWidget {
     return CachedNetworkImage(
       imageUrl: image,
       fit: BoxFit.cover,
+      width: double.infinity,
+      // height: double.infinity,
       fadeInDuration: Duration(milliseconds: 250),
       placeholder: (_, _) => Shimmer.fromColors(
         baseColor: Colors.grey.shade300,

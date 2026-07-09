@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:foodexpress_mobile/core/di/injection_container.dart';
 import 'package:foodexpress_mobile/features/auth/presentation/blocs/auth_bloc.dart';
+import 'package:foodexpress_mobile/features/cart/presentation/blocs/cart_bloc/cart_bloc.dart';
+import 'package:foodexpress_mobile/features/cart/presentation/blocs/cart_bloc/cart_event.dart';
 import 'package:foodexpress_mobile/splash_screen.dart';
 
 void main() async {
@@ -17,10 +19,13 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [BlocProvider(create: (_) => sl<AuthBloc>())],
-      child: MaterialApp(
-        debugShowCheckedModeBanner: false,
-        title: "Food Express",
-        home: const SplashScreen(),
+      child: MultiBlocProvider(
+        providers: [BlocProvider(create: (context) => sl<CartBloc>()..add(CartLoadRequested()))],
+        child: MaterialApp(
+          debugShowCheckedModeBanner: false,
+          title: "Food Express",
+          home: const SplashScreen(),
+        ),
       ),
     );
   }

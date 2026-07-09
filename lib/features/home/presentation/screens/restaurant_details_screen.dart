@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:foodexpress_mobile/core/di/injection_container.dart';
+import 'package:foodexpress_mobile/features/cart/presentation/screens/cart_screen.dart';
+import 'package:foodexpress_mobile/features/cart/presentation/widgets/cart_fab.dart';
 import 'package:foodexpress_mobile/features/home/presentation/blocs/restaurant_detail_bloc/restaurant_detail_bloc.dart';
 import 'package:foodexpress_mobile/features/home/presentation/blocs/restaurant_detail_bloc/restaurant_detail_event.dart';
 import 'package:foodexpress_mobile/features/home/presentation/blocs/restaurant_menu_bloc/restaurant_menu_bloc.dart';
@@ -27,14 +29,20 @@ class RestaurantDetailsScreen extends StatelessWidget {
       ],
       child: Scaffold(
         appBar: AppBar(title: Text("Details")),
+        floatingActionButton: CartFab(
+          onPressed: () {
+            Navigator.push(context, MaterialPageRoute(builder: (_) => const CartScreen()));
+          },
+        ),
+        floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
         body: SingleChildScrollView(
           child: Padding(
             padding: const EdgeInsets.all(12),
             child: Column(
               children: [
                 RestaurantDetailSection(),
-                RestaurantMenuCategoryWidget(),
-                RestaurantMenuSection(),
+                RestaurantMenuCategoryWidget(restaurantId: restaurantId),
+                RestaurantMenuSection(restaurantId: restaurantId),
               ],
             ),
           ),

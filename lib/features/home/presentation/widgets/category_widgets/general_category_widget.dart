@@ -1,15 +1,16 @@
 import 'package:flutter/material.dart';
-import 'package:foodexpress_mobile/features/home/data/models/category_model.dart';
 
-class GeneralCategoryWidget extends StatelessWidget {
-  final CategoryModel category;
-  final void Function()? onTap;
-  const GeneralCategoryWidget({super.key, required this.category, required this.onTap});
+class CategoryChip extends StatelessWidget {
+  final String title;
+  final bool isSelected;
+  final VoidCallback? onTap;
+
+  const CategoryChip({super.key, required this.title, required this.isSelected, this.onTap});
 
   @override
   Widget build(BuildContext context) {
     return Material(
-      color: Colors.grey.shade100,
+      color: isSelected ? Colors.blue.shade100 : Colors.grey.shade100,
       borderRadius: BorderRadius.circular(18),
       child: InkWell(
         onTap: onTap,
@@ -21,10 +22,7 @@ class GeneralCategoryWidget extends StatelessWidget {
             border: Border.all(color: Colors.grey.shade300),
           ),
           child: Center(
-            child: Text(
-              category.categoryName,
-              style: const TextStyle(fontSize: 15, fontWeight: FontWeight.w600),
-            ),
+            child: Text(title, style: const TextStyle(fontSize: 15, fontWeight: FontWeight.w600)),
           ),
         ),
       ),

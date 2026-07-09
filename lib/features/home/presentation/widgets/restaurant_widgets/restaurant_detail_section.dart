@@ -24,6 +24,7 @@ class RestaurantDetailSection extends StatelessWidget {
         }
         final restaurant = state.restaurant!;
         return Column(
+          crossAxisAlignment: .start,
           children: [
             ClipRRect(
               borderRadius: BorderRadius.circular(20),
@@ -43,16 +44,23 @@ class RestaurantDetailSection extends StatelessWidget {
                   ),
                 ),
                 Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                  padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
                   decoration: BoxDecoration(
-                    color: Colors.orange.shade50,
+                    color: restaurant.isOpen ? const Color(0xFFE8F5E9) : const Color(0xFFFFEBEE),
                     borderRadius: BorderRadius.circular(20),
                   ),
-                  child: const Row(
+                  child: Row(
                     children: [
-                      Icon(Icons.star, size: 18, color: Colors.orange),
                       SizedBox(width: 4),
-                      Text("4.8"),
+                      Text(
+                        restaurant.isOpen ? "Ochiq" : "Yopiq",
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          color: restaurant.isOpen
+                              ? const Color(0xFF2E7D32)
+                              : const Color(0xFFC62828),
+                        ),
+                      ),
                     ],
                   ),
                 ),
