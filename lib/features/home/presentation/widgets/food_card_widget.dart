@@ -94,7 +94,7 @@ class FoodCardWidget extends StatelessWidget {
                             child: FilledButton(onPressed: onAdd, child: const Text('Add to Cart')),
                           )
                         : Row(
-                            mainAxisAlignment: .spaceBetween,
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               IconButton(onPressed: onRemove, icon: Icon(Icons.remove)),
                               ElevatedButton(onPressed: () {}, child: Text(quantity.toString())),

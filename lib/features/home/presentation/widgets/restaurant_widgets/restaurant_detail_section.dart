@@ -27,7 +27,7 @@ class RestaurantDetailSection extends StatelessWidget {
         }
         final restaurant = state.restaurant!;
         return Column(
-          crossAxisAlignment: .start,
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             ClipRRect(
               borderRadius: BorderRadius.circular(20),
