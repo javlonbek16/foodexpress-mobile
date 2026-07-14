@@ -5,7 +5,7 @@ import 'package:foodexpress_mobile/features/home/presentation/blocs/restaurant_m
 import 'package:foodexpress_mobile/features/home/presentation/blocs/restaurant_menu_bloc/restaurant_menu_state.dart';
 import 'package:foodexpress_mobile/features/home/presentation/widgets/category_widgets/general_category_widget.dart';
 
-import 'package:foodexpress_mobile/features/home/presentation/widgets/restaurant_widgets/menu_category_widget.dart';
+ 
 
 class RestaurantMenuCategoryWidget extends StatelessWidget {
   final String restaurantId;
@@ -33,13 +33,13 @@ class RestaurantMenuCategoryWidget extends StatelessWidget {
               }
               final category = state.categories[index - 1];
               final isSelected = state.selectedCategory == category.name;
-              return MenuCategoryWidget(
+              return CategoryChip(
+                title: category.name,
                 isSelected: isSelected,
-                category: category,
                 onTap: () {
                   context.read<RestaurantMenuBloc>().add(
                     RestaurantMenuCategoryChanged(
-                      restaurantId: category.restaurantId,
+                      restaurantId: restaurantId,
                       categoryName: category.name,
                     ),
                   );

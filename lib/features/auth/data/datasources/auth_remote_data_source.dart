@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:foodexpress_mobile/core/constants/app_endpoints.dart';
 import 'package:foodexpress_mobile/core/network/dio_client.dart';
 import 'package:foodexpress_mobile/features/auth/data/models/user_model.dart';
 
@@ -10,7 +11,7 @@ class AuthRemoteDataSource {
   Future<Map<String, dynamic>> login(String email, String password) async {
     try {
       final response = await dioClient.dio.post(
-        "/auth/login",
+        AppEndpoints.loginApi,
         data: {"email": email, "password": password},
       );
       return response.data;
@@ -21,7 +22,7 @@ class AuthRemoteDataSource {
 
   Future<void> sendOtp(String email) async {
     try {
-      await dioClient.dio.post('/auth/sent-otp', data: {"email": email});
+      await dioClient.dio.post(AppEndpoints.sentOtpApi, data: {"email": email});
     } on DioException catch (e) {
       throw Exception(e.response?.data['message'] ?? "OTP yuborishda xatolik!");
     }
@@ -30,7 +31,7 @@ class AuthRemoteDataSource {
   Future<String> verifyOtp(String email, String code) async {
     try {
       final response = await dioClient.dio.post(
-        '/auth/verify-otp',
+        AppEndpoints.verifyOtpApi,
         data: {"email": email, "code": code},
       );
       return response.data["otpToken"];
@@ -41,7 +42,7 @@ class AuthRemoteDataSource {
 
   Future<void> register(Map<String, dynamic> data) async {
     try {
-      await dioClient.dio.post('/auth/register', data: data);
+      await dioClient.dio.post(AppEndpoints.registerApi, data: data);
     } on DioException catch (e) {
       throw Exception(e.response?.data["message"] ?? "Ro'yxatdan o'tishda xatolik!");
     }
@@ -50,7 +51,7 @@ class AuthRemoteDataSource {
   Future<UserModel> getMe() async {
     try {
       final response = await dioClient.dio.get(
-        '/auth/me',
+        AppEndpoints.getMeApi,
         options: Options(extra: {'requiresToken': true}),
       );
 

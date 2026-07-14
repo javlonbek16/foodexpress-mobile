@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:foodexpress_mobile/core/utils/app_text_styles.dart';
 import 'package:foodexpress_mobile/features/home/presentation/blocs/general_category_bloc/category_bloc.dart';
 import 'package:foodexpress_mobile/features/home/presentation/blocs/general_category_bloc/category_state.dart';
 import 'package:foodexpress_mobile/features/home/presentation/blocs/restaurant_bloc/restaurant_bloc.dart';
 import 'package:foodexpress_mobile/features/home/presentation/blocs/restaurant_bloc/restaurant_event.dart';
 import 'package:foodexpress_mobile/features/home/presentation/blocs/restaurant_bloc/restaurant_state.dart';
+import 'package:foodexpress_mobile/features/home/presentation/widgets/category_widgets/category_skleton_widget.dart';
 import 'package:foodexpress_mobile/features/home/presentation/widgets/category_widgets/general_category_widget.dart';
 
 class CategorySection extends StatelessWidget {
@@ -17,7 +19,8 @@ class CategorySection extends StatelessWidget {
         return BlocBuilder<CategoryBloc, CategoryState>(
           builder: (context, state) {
             if (state.isLoading) {
-              return Center(child: CircularProgressIndicator());
+              // return Center(child: CircularProgressIndicator());
+              return CategorySkletonWidget();
             }
             if (state.error != null) {
               return Center(child: Text(state.error!));
@@ -25,10 +28,7 @@ class CategorySection extends StatelessWidget {
             return Column(
               children: [
                 const ListTile(
-                  title: Text(
-                    "Kategoriyalar",
-                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-                  ),
+                  title: Text("Kategoriyalar", style: AppTextStyles.h3),
                   contentPadding: EdgeInsets.zero,
                 ),
                 const SizedBox(height: 10),
@@ -36,7 +36,9 @@ class CategorySection extends StatelessWidget {
                 SizedBox(
                   height: 52,
                   child: state.categories.isEmpty
-                      ? const Center(child: Text("Kategoriyalar topilmadi"))
+                      ? const Center(
+                          child: Text("Kategoriyalar topilmadi", style: AppTextStyles.titleMedium),
+                        )
                       : ListView.separated(
                           scrollDirection: Axis.horizontal,
                           itemCount: state.categories.length + 1,

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:foodexpress_mobile/core/utils/app_text_styles.dart';
 import 'package:foodexpress_mobile/features/cart/data/models/cart_item_model.dart';
 import 'package:foodexpress_mobile/features/cart/presentation/blocs/cart_bloc/cart_bloc.dart';
 import 'package:foodexpress_mobile/features/cart/presentation/blocs/cart_bloc/cart_event.dart';
@@ -8,6 +9,7 @@ import 'package:foodexpress_mobile/features/home/presentation/blocs/restaurant_m
 
 import 'package:foodexpress_mobile/features/home/presentation/blocs/restaurant_menu_bloc/restaurant_menu_state.dart';
 import 'package:foodexpress_mobile/features/home/presentation/widgets/food_card_widget.dart';
+import 'package:go_router/go_router.dart';
 
 class RestaurantMenuSection extends StatelessWidget {
   final String restaurantId;
@@ -28,16 +30,24 @@ class RestaurantMenuSection extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text("Menu", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 22)),
+                Text("Menu", style: AppTextStyles.h2),
                 Text(
                   restaurantMenuState.food.length.toString(),
-                  style: TextStyle(color: Colors.grey),
+                  style: AppTextStyles.bodySmall.copyWith(fontSize: 16),
                 ),
               ],
             ),
 
             restaurantMenuState.food.isEmpty
-                ? Center(child: Text("Menuda hech narsa yo'q"))
+                ? Center(
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 20),
+                      child: Text(
+                        "Menuda hech narsa yo'q",
+                        style: AppTextStyles.bodySmall.copyWith(fontSize: 16),
+                      ),
+                    ),
+                  )
                 : GridView.builder(
                     shrinkWrap: true,
                     physics: const NeverScrollableScrollPhysics(),
@@ -47,7 +57,7 @@ class RestaurantMenuSection extends StatelessWidget {
                       crossAxisCount: 2,
                       crossAxisSpacing: 14,
                       mainAxisSpacing: 14,
-                      childAspectRatio: .58,
+                      childAspectRatio: .55,
                     ),
                     itemBuilder: (context, index) {
                       final food = restaurantMenuState.food[index];
@@ -89,17 +99,19 @@ class RestaurantMenuSection extends StatelessWidget {
                               final shouldReplace = await showDialog<bool>(
                                 context: context,
                                 builder: (_) => AlertDialog(
-                                  title: const Text("Boshqa restoran mahsulotini qo'shmoqchimisiz?"),
+                                  title: const Text(
+                                    "Boshqa restoran mahsulotini qo'shmoqchimisiz?",
+                                  ),
                                   content: const Text(
                                     "Savatizda boshqa restoran mahsuloti bor. Yangi mahsulot qo'shish uchun avval uni tozalang",
                                   ),
                                   actions: [
                                     TextButton(
-                                      onPressed: () => Navigator.pop(context, false),
+                                      onPressed: () => context.pop(false),
                                       child: const Text("Bekor qilish"),
                                     ),
                                     FilledButton(
-                                      onPressed: () => Navigator.pop(context, true),
+                                      onPressed: () => context.pop(true),
                                       child: const Text("Tozalash va qo'shish"),
                                     ),
                                   ],

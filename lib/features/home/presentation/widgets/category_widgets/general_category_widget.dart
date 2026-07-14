@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:foodexpress_mobile/core/utils/app_colors.dart';
+import 'package:foodexpress_mobile/core/utils/app_text_styles.dart';
 
 class CategoryChip extends StatelessWidget {
   final String title;
@@ -10,7 +12,7 @@ class CategoryChip extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Material(
-      color: isSelected ? Colors.blue.shade100 : Colors.grey.shade100,
+      color: isSelected ? AppColors.categorySelected : AppColors.categoryUnselected,
       borderRadius: BorderRadius.circular(18),
       child: InkWell(
         onTap: onTap,
@@ -19,10 +21,18 @@ class CategoryChip extends StatelessWidget {
           padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 12),
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(18),
-            border: Border.all(color: Colors.grey.shade300),
+            border: Border.all(color: AppColors.border),
           ),
           child: Center(
-            child: Text(title, style: const TextStyle(fontSize: 15, fontWeight: FontWeight.w600)),
+            child: Text(
+              title,
+              style: AppTextStyles.titleMedium.copyWith(
+                fontSize: 15,
+                color: isSelected
+                    ? AppColors.categorySelectedText
+                    : AppColors.categoryUnselectedText,
+              ),
+            ),
           ),
         ),
       ),

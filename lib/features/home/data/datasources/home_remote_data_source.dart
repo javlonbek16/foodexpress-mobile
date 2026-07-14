@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:foodexpress_mobile/core/constants/app_endpoints.dart';
 import 'package:foodexpress_mobile/core/network/dio_client.dart';
 import 'package:foodexpress_mobile/core/network/network_executor.dart';
 import 'package:foodexpress_mobile/features/home/data/models/banner_model.dart';
@@ -14,7 +15,7 @@ class HomeRemoteDataSource {
 
   Future<List<BannerModel>> getBanners() async {
     return NetworkExecutor.execute(() async {
-      final response = await dio.get("/api/ads");
+      final response = await dio.get(AppEndpoints.bannerApi);
 
       return (response.data as List).map((e) => BannerModel.fromJson(e)).toList();
     });
@@ -22,7 +23,7 @@ class HomeRemoteDataSource {
 
   Future<List<CategoryModel>> getCategories() async {
     return NetworkExecutor.execute(() async {
-      final response = await dio.get("/api/general-category");
+      final response = await dio.get(AppEndpoints.generalCategoryApi);
 
       return (response.data as List).map((e) => CategoryModel.fromJson(e)).toList();
     });
@@ -30,7 +31,7 @@ class HomeRemoteDataSource {
 
   Future<List<MenuItemModel>> getMenuItems() async {
     return NetworkExecutor.execute(() async {
-      final response = await dio.get("/api/menu-items");
+      final response = await dio.get(AppEndpoints.menuItemsApi);
 
       return (response.data as List).map((e) => MenuItemModel.fromJson(e)).toList();
     });
@@ -38,7 +39,7 @@ class HomeRemoteDataSource {
 
   Future<List<RestaurantModel>> getRestaurants() async {
     return NetworkExecutor.execute(() async {
-      final response = await dio.get("/api/restaurants");
+      final response = await dio.get(AppEndpoints.restaurantsApi);
 
       return (response.data as List).map((e) => RestaurantModel.fromJson(e)).toList();
     });
@@ -46,7 +47,7 @@ class HomeRemoteDataSource {
 
   Future<RestaurantModel> getRestaurantById(String id) async {
     return NetworkExecutor.execute(() async {
-      final response = await dio.get("/api/restaurant/$id");
+      final response = await dio.get(AppEndpoints.restaurantByIdApi(id));
 
       return RestaurantModel.fromJson(response.data);
     });
@@ -55,7 +56,7 @@ class HomeRemoteDataSource {
   Future<List<MenuItemModel>> getMenuItemsByRestaurant(String id) async {
     return NetworkExecutor.execute(() async {
       final response = await dio.get(
-        "/api/restaurants/$id/menu",
+        AppEndpoints.menuItemsByRestaurantApi(id),
         options: Options(extra: {"requiresToken": false}),
       );
 
@@ -66,7 +67,7 @@ class HomeRemoteDataSource {
   Future<List<RestaurantModel>> getRestaurantsByCategory(String categoryName) async {
     return NetworkExecutor.execute(() async {
       final response = await dio.get(
-        "/api/category/restaurants/$categoryName",
+        AppEndpoints.restaurantByCategoryApi(categoryName),
         options: Options(extra: {"requiresToken": false}),
       );
 
@@ -77,7 +78,7 @@ class HomeRemoteDataSource {
   Future<List<MenuCategoryModel>> getMenuCategoryByRestaurant(String restaurantId) async {
     return NetworkExecutor.execute(() async {
       final response = await dio.get(
-        "/api/restaurants/$restaurantId/menucategory",
+        AppEndpoints.menuCategoryApi(restaurantId),
         options: Options(extra: {"requiresToken": false}),
       );
 
@@ -91,7 +92,7 @@ class HomeRemoteDataSource {
   ) async {
     return NetworkExecutor.execute(() async {
       final response = await dio.get(
-        "/api/restaurants/$restaurantId/menu_categories/$categoryName/items",
+        AppEndpoints.menuItemsByCategoryApi(restaurantId, categoryName),
         options: Options(extra: {"requiresToken": false}),
       );
 

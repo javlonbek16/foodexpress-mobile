@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:foodexpress_mobile/core/router/app_routes.dart';
+import 'package:foodexpress_mobile/core/utils/app_colors.dart';
+import 'package:foodexpress_mobile/core/utils/app_text_styles.dart';
 import 'package:foodexpress_mobile/features/home/data/models/restaurant_model.dart';
-import 'package:foodexpress_mobile/features/home/presentation/screens/restaurant_details_screen.dart';
 import 'package:foodexpress_mobile/features/home/presentation/widgets/image_widget.dart';
+import 'package:go_router/go_router.dart';
 
 class RestaurantCardWidget extends StatelessWidget {
   final RestaurantModel restaurant;
@@ -12,12 +15,7 @@ class RestaurantCardWidget extends StatelessWidget {
     return InkWell(
       borderRadius: BorderRadius.circular(24),
       onTap: () {
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (_) => RestaurantDetailsScreen(restaurantId: restaurant.restaurantId),
-          ),
-        );
+        context.push(AppRoutes.restaurantDetailPath(restaurant.restaurantId));
       },
       child: Container(
         width: 285,
@@ -29,14 +27,11 @@ class RestaurantCardWidget extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Hero(
-              tag: restaurant.restaurantId,
-              child: ClipRRect(
-                borderRadius: const BorderRadius.vertical(top: Radius.circular(24)),
-                child: AspectRatio(
-                  aspectRatio: 16 / 9,
-                  child: ImageWidget(image: restaurant.restaurantImage),
-                ),
+            ClipRRect(
+              borderRadius: const BorderRadius.vertical(top: Radius.circular(24)),
+              child: AspectRatio(
+                aspectRatio: 16 / 9,
+                child: ImageWidget(image: restaurant.restaurantImage),
               ),
             ),
 
@@ -50,7 +45,7 @@ class RestaurantCardWidget extends StatelessWidget {
                       restaurant.name,
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
-                      style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w700),
+                      style: AppTextStyles.restaurantName,
                     ),
 
                     const SizedBox(height: 8),
@@ -59,7 +54,7 @@ class RestaurantCardWidget extends StatelessWidget {
                       restaurant.description,
                       maxLines: 2,
                       overflow: TextOverflow.ellipsis,
-                      style: TextStyle(fontSize: 14, color: Colors.grey.shade600, height: 1.4),
+                      style: AppTextStyles.restaurantInfo,
                     ),
 
                     const Spacer(),
@@ -68,10 +63,7 @@ class RestaurantCardWidget extends StatelessWidget {
                       children: [
                         Text(
                           "Menyuni ko'rish",
-                          style: TextStyle(
-                            color: Theme.of(context).colorScheme.primary,
-                            fontWeight: FontWeight.w600,
-                          ),
+                          style: AppTextStyles.titleSmall.copyWith(color: AppColors.primary),
                         ),
                         const SizedBox(width: 4),
                         Icon(

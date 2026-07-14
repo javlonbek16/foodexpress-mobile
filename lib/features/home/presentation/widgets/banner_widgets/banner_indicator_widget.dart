@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:foodexpress_mobile/core/utils/app_colors.dart';
 import 'package:foodexpress_mobile/features/home/data/models/banner_model.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
@@ -13,7 +14,7 @@ class BannerIndicatorWidget extends StatelessWidget {
       controller: pageController,
       count: banners.length,
       effect: ExpandingDotsEffect(
-        activeDotColor: Colors.orange,
+        activeDotColor: AppColors.primary,
         dotColor: Colors.grey.shade300,
         dotHeight: 8,
         dotWidth: 8,

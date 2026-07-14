@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:foodexpress_mobile/core/router/app_routes.dart';
+import 'package:foodexpress_mobile/core/utils/app_colors.dart';
 import 'package:foodexpress_mobile/features/auth/presentation/blocs/auth_bloc.dart';
 import 'package:foodexpress_mobile/features/auth/presentation/blocs/auth_event.dart';
 import 'package:foodexpress_mobile/features/auth/presentation/blocs/auth_state.dart';
+import 'package:go_router/go_router.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -14,6 +17,7 @@ class LoginScreen extends StatefulWidget {
 class _LoginScreenState extends State<LoginScreen> {
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
+  bool isObscure = true;
 
   @override
   void dispose() {
@@ -37,6 +41,7 @@ class _LoginScreenState extends State<LoginScreen> {
               backgroundColor: Colors.green,
             ),
           );
+          context.push(AppRoutes.home);
         }
       },
       builder: (context, state) {
@@ -63,8 +68,20 @@ class _LoginScreenState extends State<LoginScreen> {
                     const SizedBox(height: 16),
                     TextFormField(
                       controller: _passwordController,
-                      decoration: const InputDecoration(hintText: "Parolni kiriting ... "),
-                      obscureText: true,
+                      decoration: InputDecoration(
+                        hintText: "Parolni kiriting ... ",
+                        suffixIcon: IconButton(
+                          onPressed: () {
+                            isObscure = !isObscure;
+                            setState(() {});
+                          },
+                          icon: Icon(
+                            isObscure ? Icons.visibility_off : Icons.visibility,
+                            color: AppColors.disabled,
+                          ),
+                        ),
+                      ),
+                      obscureText: isObscure,
                     ),
                     const SizedBox(height: 50),
 

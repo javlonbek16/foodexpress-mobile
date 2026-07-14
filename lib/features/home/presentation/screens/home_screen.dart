@@ -24,7 +24,8 @@ class HomeScreen extends StatelessWidget {
       ],
       child: Scaffold(
         appBar: AppBar(
-          title: const Text("FOOD EXPRESS MOBILE"),
+          automaticallyImplyLeading: false,
+          title: const Text("FOOD EXPRESS"),
           centerTitle: true,
           surfaceTintColor: Colors.white,
         ),

@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:foodexpress_mobile/core/utils/app_colors.dart';
+import 'package:foodexpress_mobile/core/utils/app_text_styles.dart';
 import 'package:foodexpress_mobile/features/home/presentation/blocs/restaurant_detail_bloc/restaurant_detail_bloc.dart';
 import 'package:foodexpress_mobile/features/home/presentation/blocs/restaurant_detail_bloc/restaurant_detail_state.dart';
 import 'package:foodexpress_mobile/features/home/presentation/widgets/image_widget.dart';
+import 'package:foodexpress_mobile/features/home/presentation/widgets/restaurant_widgets/restaurant_detail_skleton_widget.dart';
 
 class RestaurantDetailSection extends StatelessWidget {
   const RestaurantDetailSection({super.key});
@@ -12,7 +15,7 @@ class RestaurantDetailSection extends StatelessWidget {
     return BlocBuilder<RestaurantDetailBloc, RestaurantDetailState>(
       builder: (context, state) {
         if (state.isLoading) {
-          return const Center(child: CircularProgressIndicator());
+          return RestaurantDetailSkletonWidget();
         }
 
         if (state.error != null) {
@@ -37,16 +40,13 @@ class RestaurantDetailSection extends StatelessWidget {
             const SizedBox(height: 16),
             Row(
               children: [
-                Expanded(
-                  child: Text(
-                    restaurant.name,
-                    style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-                  ),
-                ),
+                Expanded(child: Text(restaurant.name, style: AppTextStyles.h1)),
                 Container(
                   padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
                   decoration: BoxDecoration(
-                    color: restaurant.isOpen ? const Color(0xFFE8F5E9) : const Color(0xFFFFEBEE),
+                    color: restaurant.isOpen
+                        ? AppColors.restaurantOpen
+                        : AppColors.restaurantClosed,
                     borderRadius: BorderRadius.circular(20),
                   ),
                   child: Row(
@@ -54,11 +54,11 @@ class RestaurantDetailSection extends StatelessWidget {
                       SizedBox(width: 4),
                       Text(
                         restaurant.isOpen ? "Ochiq" : "Yopiq",
-                        style: TextStyle(
+                        style: AppTextStyles.titleSmall.copyWith(
                           fontWeight: FontWeight.bold,
                           color: restaurant.isOpen
-                              ? const Color(0xFF2E7D32)
-                              : const Color(0xFFC62828),
+                              ? AppColors.restaurantOpenText
+                              : AppColors.restaurantClosedText,
                         ),
                       ),
                     ],

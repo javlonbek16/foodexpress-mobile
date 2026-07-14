@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:foodexpress_mobile/core/extensions/price_extension.dart';
+import 'package:foodexpress_mobile/core/utils/app_colors.dart';
+import 'package:foodexpress_mobile/core/utils/app_text_styles.dart';
 import 'package:foodexpress_mobile/features/home/presentation/widgets/image_widget.dart';
 
 class FoodCardWidget extends StatelessWidget {
@@ -57,7 +59,7 @@ class FoodCardWidget extends StatelessWidget {
                       name,
                       maxLines: 2,
                       overflow: TextOverflow.ellipsis,
-                      style: const TextStyle(fontWeight: FontWeight.w700, fontSize: 15),
+                      style: AppTextStyles.restaurantName.copyWith(fontSize: 15),
                     ),
 
                     const SizedBox(height: 8),
@@ -65,11 +67,11 @@ class FoodCardWidget extends StatelessWidget {
                     Row(
                       children: [
                         const Spacer(),
-                        Icon(Icons.schedule_outlined, size: 16, color: Colors.grey.shade600),
+                        Icon(Icons.schedule_outlined, size: 16, color: AppColors.disabled),
 
                         const SizedBox(width: 4),
 
-                        Text(duration, style: TextStyle(color: Colors.grey.shade700, fontSize: 12)),
+                        Text(duration, style: AppTextStyles.bodySmall),
                       ],
                     ),
 
@@ -80,11 +82,7 @@ class FoodCardWidget extends StatelessWidget {
                         Expanded(
                           child: Text(
                             double.parse(price).formattedPrice,
-                            style: const TextStyle(
-                              fontSize: 16,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.green,
-                            ),
+                            style: AppTextStyles.price,
                           ),
                         ),
                       ],

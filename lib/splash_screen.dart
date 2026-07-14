@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:foodexpress_mobile/core/router/app_routes.dart';
 import 'package:foodexpress_mobile/features/auth/presentation/blocs/auth_bloc.dart';
 import 'package:foodexpress_mobile/features/auth/presentation/blocs/auth_event.dart';
 import 'package:foodexpress_mobile/features/auth/presentation/blocs/auth_state.dart';
-import 'package:foodexpress_mobile/features/auth/presentation/screens/login_screen.dart';
-import 'package:foodexpress_mobile/features/home/presentation/screens/home_screen.dart';
+import 'package:go_router/go_router.dart';
 
 class SplashScreen extends StatelessWidget {
   const SplashScreen({super.key});
@@ -17,18 +17,12 @@ class SplashScreen extends StatelessWidget {
         listener: (context, state) {
           if (state is Authenticated) {
             print("Home ga o'tishdagi print: ${state.runtimeType}");
-            Navigator.pushReplacement(
-              context,
-              MaterialPageRoute(builder: (_) => const HomeScreen()),
-            );
+            context.pushReplacement(AppRoutes.home);
           }
 
           if (state is Unauthenticated) {
             print("Loginga o'tishdagi print: ${state.runtimeType}");
-            Navigator.pushReplacement(
-              context,
-              MaterialPageRoute(builder: (_) => const LoginScreen()),
-            );
+            context.pushReplacement(AppRoutes.login);
           }
         },
         child: const Scaffold(body: Center(child: CircularProgressIndicator())),

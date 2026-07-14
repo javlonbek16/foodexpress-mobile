@@ -1,10 +1,11 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:foodexpress_mobile/core/router/app_routes.dart';
 import 'package:foodexpress_mobile/features/home/data/models/banner_model.dart';
-import 'package:foodexpress_mobile/features/home/presentation/screens/restaurant_details_screen.dart';
 import 'package:foodexpress_mobile/features/home/presentation/widgets/banner_widgets/banner_card_widget.dart';
 import 'package:foodexpress_mobile/features/home/presentation/widgets/banner_widgets/banner_indicator_widget.dart';
+import 'package:go_router/go_router.dart';
 
 class BannerCarouselWidget extends StatefulWidget {
   final List<BannerModel> banners;
@@ -65,16 +66,10 @@ class _BannerCarouselWidgetState extends State<BannerCarouselWidget> {
             itemBuilder: (_, index) {
               final banner = widget.banners[index];
               return Padding(
-                padding: const EdgeInsets.all(8),
+                padding: const EdgeInsets.symmetric(horizontal: 8),
                 child: GestureDetector(
                   onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) =>
-                            RestaurantDetailsScreen(restaurantId: banner.restaurantId),
-                      ),
-                    );
+                    context.push(AppRoutes.restaurantDetailPath(banner.restaurantId));
                   },
                   child: BannerCardWidget(banner: banner),
                 ),
@@ -82,7 +77,7 @@ class _BannerCarouselWidgetState extends State<BannerCarouselWidget> {
             },
           ),
         ),
-        const SizedBox(height: 14),
+        const SizedBox(height: 16),
         ValueListenableBuilder<int>(
           valueListenable: _currentPage,
           builder: (_, currentPage, _) {

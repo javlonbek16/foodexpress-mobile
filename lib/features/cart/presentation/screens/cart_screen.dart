@@ -4,6 +4,7 @@ import 'package:foodexpress_mobile/features/cart/presentation/blocs/cart_bloc/ca
 import 'package:foodexpress_mobile/features/cart/presentation/blocs/cart_bloc/cart_event.dart';
 import 'package:foodexpress_mobile/features/cart/presentation/blocs/cart_bloc/cart_state.dart';
 import 'package:foodexpress_mobile/features/cart/presentation/widgets/cart_item_card.dart';
+import 'package:go_router/go_router.dart';
 
 class CartScreen extends StatelessWidget {
   const CartScreen({super.key});
@@ -34,13 +35,13 @@ class CartScreen extends StatelessWidget {
                         actions: [
                           TextButton(
                             onPressed: () {
-                              Navigator.pop(dialogContext, false);
+                              dialogContext.pop(false);
                             },
                             child: const Text("Bekor qilish"),
                           ),
                           FilledButton(
                             onPressed: () {
-                              Navigator.pop(dialogContext, true);
+                              dialogContext.pop(true);
                             },
                             child: const Text("Tozalash"),
                           ),

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:foodexpress_mobile/core/di/injection_container.dart';
-import 'package:foodexpress_mobile/features/cart/presentation/screens/cart_screen.dart';
+import 'package:foodexpress_mobile/core/router/app_routes.dart';
 import 'package:foodexpress_mobile/features/cart/presentation/widgets/cart_fab.dart';
 import 'package:foodexpress_mobile/features/home/presentation/blocs/restaurant_detail_bloc/restaurant_detail_bloc.dart';
 import 'package:foodexpress_mobile/features/home/presentation/blocs/restaurant_detail_bloc/restaurant_detail_event.dart';
@@ -10,6 +10,7 @@ import 'package:foodexpress_mobile/features/home/presentation/blocs/restaurant_m
 import 'package:foodexpress_mobile/features/home/presentation/widgets/restaurant_widgets/restaurant_detail_section.dart';
 import 'package:foodexpress_mobile/features/home/presentation/widgets/restaurant_widgets/restaurant_menu_category_widget.dart';
 import 'package:foodexpress_mobile/features/home/presentation/widgets/restaurant_widgets/restaurant_menu_section.dart';
+import 'package:go_router/go_router.dart';
 
 class RestaurantDetailsScreen extends StatelessWidget {
   final String restaurantId;
@@ -28,10 +29,10 @@ class RestaurantDetailsScreen extends StatelessWidget {
         ),
       ],
       child: Scaffold(
-        appBar: AppBar(title: Text("Details")),
+        appBar: AppBar(title: Text("Details"), surfaceTintColor: Colors.white),
         floatingActionButton: CartFab(
           onPressed: () {
-            Navigator.push(context, MaterialPageRoute(builder: (_) => const CartScreen()));
+            context.push(AppRoutes.cart);
           },
         ),
         floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
@@ -41,7 +42,9 @@ class RestaurantDetailsScreen extends StatelessWidget {
             child: Column(
               children: [
                 RestaurantDetailSection(),
+                const SizedBox(height: 10),
                 RestaurantMenuCategoryWidget(restaurantId: restaurantId),
+                const SizedBox(height: 10),
                 RestaurantMenuSection(restaurantId: restaurantId),
               ],
             ),
