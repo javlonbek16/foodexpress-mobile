@@ -32,14 +32,15 @@ class CartItemModel {
       "restaurant_id": restaurantId,
       "name": name,
       "image": image,
-      "price":price,
-      "quantity": quantity
+      "price": price,
+      "quantity": quantity,
     };
   }
 
   CartItemModel copyWith({
     String? menuItemId,
     String? restaurantId,
+
     String? name,
     String? image,
     double? price,
@@ -48,6 +49,7 @@ class CartItemModel {
     return CartItemModel(
       menuItemId: menuItemId ?? this.menuItemId,
       restaurantId: restaurantId ?? this.restaurantId,
+
       name: name ?? this.name,
       image: image ?? this.image,
       price: price ?? this.price,

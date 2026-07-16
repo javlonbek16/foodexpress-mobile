@@ -63,7 +63,7 @@ class RestaurantMenuSection extends StatelessWidget {
                       final food = restaurantMenuState.food[index];
                       return BlocSelector<CartBloc, CartState, int>(
                         selector: (state) {
-                          return state.quantityOf(food.id.toString());
+                          return state.quantityOf(food.id);
                         },
                         builder: (context, quantity) {
                           final cart = CartItemModel(

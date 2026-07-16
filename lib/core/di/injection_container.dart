@@ -20,6 +20,10 @@ import 'package:foodexpress_mobile/features/home/presentation/blocs/general_cate
 import 'package:foodexpress_mobile/features/home/presentation/blocs/restaurant_bloc/restaurant_bloc.dart';
 import 'package:foodexpress_mobile/features/home/presentation/blocs/restaurant_detail_bloc/restaurant_detail_bloc.dart';
 import 'package:foodexpress_mobile/features/home/presentation/blocs/restaurant_menu_bloc/restaurant_menu_bloc.dart';
+import 'package:foodexpress_mobile/features/order/data/datasources/order_remote_datasource.dart';
+import 'package:foodexpress_mobile/features/order/data/repositories/order_repository_impl.dart';
+import 'package:foodexpress_mobile/features/order/domain/repositories/order_repository.dart';
+import 'package:foodexpress_mobile/features/order/presentation/blocs/order_bloc/order_bloc.dart';
 import 'package:get_it/get_it.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -42,17 +46,23 @@ Future<void> setupLocator() async {
     () => DioClient(baseUrl: AppConstants.homeBaseUrl, storageService: sl()),
     instanceName: 'home_dio',
   );
+  sl.registerLazySingleton<DioClient>(
+    () => DioClient(baseUrl: AppConstants.orderBaseUrl, storageService: sl()),
+    instanceName: 'order_dio',
+  );
 
   //datasources
   sl.registerLazySingleton(() => AuthRemoteDataSource(sl<DioClient>(instanceName: 'auth_dio')));
   sl.registerLazySingleton(() => HomeRemoteDataSource(sl<DioClient>(instanceName: "home_dio")));
   sl.registerLazySingleton<CartLocalDatasource>(() => CartLocalDatasourceImpl(sl()));
   sl.registerLazySingleton<CartLocalDatasourceImpl>(() => CartLocalDatasourceImpl(sl()));
+  sl.registerLazySingleton(() => OrderRemoteDatasource(sl<DioClient>(instanceName: "order_dio")));
 
   //repositories
   sl.registerLazySingleton<AuthRepository>(() => AuthRepositoryImpl(sl(), sl()));
   sl.registerLazySingleton<HomeRepository>(() => HomeRepositoryImpl(sl<HomeRemoteDataSource>()));
   sl.registerLazySingleton<CartRepository>(() => CartRepositoryImpl(sl()));
+  sl.registerLazySingleton<OrderRepository>(() => OrderRepositoryImpl(sl()));
 
   //usecases
   sl.registerLazySingleton(() => AuthUseCases(sl()));
@@ -65,4 +75,5 @@ Future<void> setupLocator() async {
   sl.registerFactory(() => RestaurantDetailBloc(sl()));
   sl.registerFactory(() => RestaurantMenuBloc(sl()));
   sl.registerFactory(() => CartBloc(sl()));
+  sl.registerFactory(() => OrderBloc(sl()));
 }

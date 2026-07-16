@@ -1,13 +1,23 @@
-import 'package:foodexpress_mobile/features/order/data/models/order_model.dart';
+import 'package:foodexpress_mobile/features/cart/data/models/cart_item_model.dart';
 
 abstract class OrderEvent {}
 
 class LoadOrders extends OrderEvent {}
 
 class CreateOrder extends OrderEvent {
-  final OrderModel order;
+  final List<CartItemModel> cartItems;
+  final String restaurantName;
+  final String currency;
+  final String deliveryAddress;
+  final String customerFullName;
 
-  CreateOrder(this.order);
+  CreateOrder({
+    required this.cartItems,
+    required this.restaurantName,
+    required this.currency,
+    required this.deliveryAddress,
+    required this.customerFullName,
+  });
 }
 
 class RefreshOrders extends OrderEvent {}

@@ -1,5 +1,7 @@
-class AppConstants {
-  static const String authBaseUrl = "http://13.63.45.70:3001";
-  static const String homeBaseUrl = "http://13.60.215.42:8001";
-  static const String orderBaseUrl = "http://18.212.91.176:8080";
+import 'package:flutter_dotenv/flutter_dotenv.dart';
+
+abstract final class AppConstants {
+  static final authBaseUrl = dotenv.env["AUTH_BASE_URL"]!;
+  static final homeBaseUrl = dotenv.env["HOME_BASE_URL"]!;
+  static final orderBaseUrl = dotenv.env["ORDER_BASE_URL"]!;
 }

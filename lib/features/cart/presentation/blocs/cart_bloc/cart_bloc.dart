@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:foodexpress_mobile/features/cart/domain/repositories/cart_repository.dart';
 import 'package:foodexpress_mobile/features/cart/presentation/blocs/cart_bloc/cart_event.dart';
@@ -34,6 +35,7 @@ class CartBloc extends Bloc<CartEvent, CartState> {
       await repository.addToCart(event.item);
 
       final cartItems = await repository.getCartItems();
+      debugPrint("Cart items count: ${cartItems.length}");
 
       emit(state.copyWith(isLoading: false, cartItems: cartItems));
     } catch (e) {

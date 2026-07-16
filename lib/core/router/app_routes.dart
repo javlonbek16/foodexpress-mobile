@@ -6,7 +6,9 @@ class AppRoutes {
   static const register = "/register";
   static const home = "/home";
   static const cart = "/cart";
-  
+  static const order = "/order";
+  static const profile = "/profile";
+
   static const restaurantDetail = "/detail/:id";
 
   static String restaurantDetailPath(String id) => "/detail/$id";

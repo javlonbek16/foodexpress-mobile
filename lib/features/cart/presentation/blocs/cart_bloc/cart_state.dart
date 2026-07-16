@@ -17,7 +17,7 @@ class CartState {
 }
 
 extension CartStateExtension on CartState {
-  int quantityOf(String id) {
+  int quantityOf(int id) {
     try {
       return cartItems.firstWhere((e) => e.menuItemId == id).quantity;
     } catch (_) {
