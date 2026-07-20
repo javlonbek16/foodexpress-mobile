@@ -1,5 +1,5 @@
 import 'package:dartz/dartz.dart';
-import 'package:foodexpress_mobile/core/local/secure_storage_service.dart';
+import 'package:foodexpress_mobile/infrastructure/local_source/secure_storage_service.dart';
 import 'package:foodexpress_mobile/features/auth/data/datasources/auth_remote_data_source.dart';
 import 'package:foodexpress_mobile/features/auth/domain/entities/user_entity.dart';
 import 'package:foodexpress_mobile/features/auth/domain/repositories/auth_repository.dart';

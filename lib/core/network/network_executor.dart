@@ -1,81 +1,87 @@
 import 'package:dio/dio.dart';
-
-import 'network_exception.dart';
+import 'package:foodexpress_mobile/domain/failure/app_failures.dart';
+import 'package:fpdart/fpdart.dart';
 
 class NetworkExecutor {
-  static Future<T> execute<T>(Future<T> Function() request) async {
-    try {
-      return await request();
-    } on DioException catch (e, s) {
-      print("============== DIO ERROR ==============");
-      print("TYPE: ${e.type}");
-      print("MESSAGE: ${e.message}");
-      print("ERROR: ${e.error}");
-      print("STATUS: ${e.response?.statusCode}");
-      print("DATA: ${e.response?.data}");
-      print("PATH: ${e.requestOptions.path}");
-      print("STACK: $s");
-      print("=======================================");
+  const NetworkExecutor._();
 
-      throw NetworkException(_mapError(e));
+  static Future<Either<AppFailures, T>> execute<T>(Future<T> Function() request) async {
+    try {
+      final result = await request();
+      return right(result);
+    } on DioException catch (e, stackTrace) {
+      _logError(e, stackTrace);
+      return left(_mapFailure(e));
+    } catch (e) {
+      return left(UnknownFailure(e.toString()));
     }
   }
 
-  static String _mapError(DioException e) {
+  static AppFailures _mapFailure(DioException e) {
     switch (e.type) {
       case DioExceptionType.connectionTimeout:
-        return "Serverga ulanish vaqti tugadi.";
-
       case DioExceptionType.sendTimeout:
-        return "So'rov yuborish vaqti tugadi.";
-
       case DioExceptionType.receiveTimeout:
-        return "Server javobi kechikmoqda.";
+        return const TimeoutFailure("So'rov vaqti tugadi.");
 
       case DioExceptionType.connectionError:
-        return "Internet bilan bog'lanib bo'lmadi.";
-
-      case DioExceptionType.cancel:
-        return "So'rov bekor qilindi.";
+        return const NoInternetFailure("Internet bilan bog'lanib bo'lmadi.");
 
       case DioExceptionType.badCertificate:
-        return "SSL sertifikatida xatolik.";
+        return const ServerFailure("SSL sertifikatida xatolik.");
+
+      case DioExceptionType.cancel:
+        return const UnknownFailure("So'rov bekor qilindi.");
 
       case DioExceptionType.badResponse:
-        return _statusMessage(e.response?.statusCode, e.response?.data);
+        return _mapStatusCode(e.response?.statusCode, e.response?.data);
 
       case DioExceptionType.unknown:
-        return "Noma'lum tarmoq xatoligi.";
       case DioExceptionType.transformTimeout:
-        throw UnimplementedError();
+        return const UnknownFailure("Noma'lum xatolik yuz berdi.");
     }
   }
 
-  static String _statusMessage(int? statusCode, dynamic data) {
+  static AppFailures _mapStatusCode(int? statusCode, dynamic data) {
+    final message = data is Map<String, dynamic> ? data["message"]?.toString() : null;
+
     switch (statusCode) {
       case 400:
-        return data?["message"] ?? "Noto'g'ri so'rov.";
+        return ValidationFailure(message ?? "Noto'g'ri so'rov.");
 
       case 401:
-        return "Sessiya tugagan.";
+        return const UnauthorizedFailure("Sessiya tugagan.");
 
       case 403:
-        return "Ruxsat yo'q.";
+        return const UnauthorizedFailure("Ruxsat yo'q.");
 
       case 404:
-        return "Ma'lumot topilmadi.";
+        return ServerFailure(message ?? "Ma'lumot topilmadi.");
 
       case 409:
-        return data?["message"] ?? "Konflikt.";
+        return ValidationFailure(message ?? "Konflikt yuz berdi.");
 
       case 422:
-        return data?["message"] ?? "Validation xatoligi.";
+        return ValidationFailure(message ?? "Validation xatoligi.");
 
       case 500:
-        return "Serverda xatolik.";
+      case 502:
+      case 503:
+        return const ServerFailure("Serverda xatolik.");
 
       default:
-        return data?["message"] ?? "Noma'lum server xatoligi.";
+        return ServerFailure(message ?? "Noma'lum server xatoligi.");
     }
+  }
+
+  static void _logError(DioException e, StackTrace stackTrace) {
+    print("============== DIO ERROR ==============");
+    print("TYPE: ${e.type}");
+    print("STATUS: ${e.response?.statusCode}");
+    print("MESSAGE: ${e.message}");
+    print("DATA: ${e.response?.data}");
+    print("PATH: ${e.requestOptions.path}");
+    print(stackTrace);
+    print("=======================================");
   }
 }

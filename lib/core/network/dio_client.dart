@@ -1,6 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:foodexpress_mobile/core/constants/app_constants.dart';
-import 'package:foodexpress_mobile/core/local/secure_storage_service.dart';
+import 'package:foodexpress_mobile/infrastructure/local_source/secure_storage_service.dart';
 
 class DioClient {
   final SecureStorageService storageService;
@@ -79,10 +79,7 @@ class DioClient {
 
       final refreshDio = Dio(BaseOptions(baseUrl: AppConstants.authBaseUrl));
 
-      final response = await refreshDio.post(
-        "/auth/refresh",
-        data: {"user_id": userId, "refresh_token": refreshToken},
-      );
+      final response = await refreshDio.post("/auth/refresh", data: {"user_id": userId, "refresh_token": refreshToken});
 
       if (response.statusCode == 200) {
         final newAccessToken = response.data["access_token"];
