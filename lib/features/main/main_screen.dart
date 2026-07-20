@@ -3,6 +3,7 @@ import 'package:go_router/go_router.dart';
 
 class MainScreen extends StatelessWidget {
   final StatefulNavigationShell navigationShell;
+
   const MainScreen({super.key, required this.navigationShell});
 
   @override
@@ -14,16 +15,8 @@ class MainScreen extends StatelessWidget {
         selectedIndex: navigationShell.currentIndex,
         indicatorColor: Colors.transparent,
         destinations: [
-          NavigationDestination(
-            icon: Icon(Icons.home_outlined),
-            selectedIcon: Icon(Icons.home),
-            label: "Home",
-          ),
-          NavigationDestination(
-            icon: Icon(Icons.person_outline),
-            selectedIcon: Icon(Icons.person),
-            label: "Profile",
-          ),
+          NavigationDestination(icon: Icon(Icons.home_outlined), selectedIcon: Icon(Icons.home), label: "Home"),
+          NavigationDestination(icon: Icon(Icons.person_outline), selectedIcon: Icon(Icons.person), label: "Profile"),
         ],
       ),
     );

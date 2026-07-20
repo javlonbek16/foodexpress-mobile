@@ -36,12 +36,8 @@ class OrderModel {
       restaurantId: json["restaurantId"]?.toString() ?? "",
       restaurantName: json["restaurantName"],
       courierName: json["courierName"],
-      deliveryStartedAt: json["deliveryStartedAt"] != null
-          ? DateTime.parse(json["deliveryStartedAt"])
-          : null,
-      deliveryCompletedAt: json["deliveryCompletedAt"] != null
-          ? DateTime.parse(json["deliveryCompletedAt"])
-          : null,
+      deliveryStartedAt: json["deliveryStartedAt"] != null ? DateTime.parse(json["deliveryStartedAt"]) : null,
+      deliveryCompletedAt: json["deliveryCompletedAt"] != null ? DateTime.parse(json["deliveryCompletedAt"]) : null,
       status: json["status"] ?? "",
       totalPrice: json["totalPrice"] ?? 0,
       currency: json["currency"] ?? "",
@@ -99,13 +95,6 @@ class Product {
   }
 
   Map<String, dynamic> toJson() {
-    return {
-      "id": id,
-      "menuItemId": menuItemId,
-      "name": name,
-      "qty": qty,
-      "price": price,
-      "imgUrl": imgUrl,
-    };
+    return {"id": id, "menuItemId": menuItemId, "name": name, "qty": qty, "price": price, "imgUrl": imgUrl};
   }
 }

@@ -10,10 +10,7 @@ class AuthRemoteDataSource {
 
   Future<Map<String, dynamic>> login(String email, String password) async {
     try {
-      final response = await dioClient.dio.post(
-        AppEndpoints.loginApi,
-        data: {"email": email, "password": password},
-      );
+      final response = await dioClient.dio.post(AppEndpoints.loginApi, data: {"email": email, "password": password});
       return response.data;
     } on DioException catch (e) {
       throw Exception(e.response?.data["message"] ?? "Login qilishda xatolik! \nError: $e");
@@ -30,10 +27,7 @@ class AuthRemoteDataSource {
 
   Future<String> verifyOtp(String email, String code) async {
     try {
-      final response = await dioClient.dio.post(
-        AppEndpoints.verifyOtpApi,
-        data: {"email": email, "code": code},
-      );
+      final response = await dioClient.dio.post(AppEndpoints.verifyOtpApi, data: {"email": email, "code": code});
       return response.data["otpToken"];
     } on DioException catch (e) {
       throw Exception("Kodni tasdiqlashda xatolik!-> $e");
@@ -50,10 +44,7 @@ class AuthRemoteDataSource {
 
   Future<UserModel> getMe() async {
     try {
-      final response = await dioClient.dio.get(
-        AppEndpoints.getMeApi,
-        options: Options(extra: {'requiresToken': true}),
-      );
+      final response = await dioClient.dio.get(AppEndpoints.getMeApi, options: Options(extra: {'requiresToken': true}));
 
       return UserModel.fromJson(response.data);
     } on DioException catch (e) {

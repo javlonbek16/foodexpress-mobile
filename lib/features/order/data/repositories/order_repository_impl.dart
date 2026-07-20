@@ -7,7 +7,9 @@ import 'package:foodexpress_mobile/features/order/domain/repositories/order_repo
 
 class OrderRepositoryImpl implements OrderRepository {
   final OrderRemoteDatasource orderRemoteDatasource;
+
   OrderRepositoryImpl(this.orderRemoteDatasource);
+
   @override
   Future<List<OrderModel>> getOrders() async {
     return await orderRemoteDatasource.getOrders();

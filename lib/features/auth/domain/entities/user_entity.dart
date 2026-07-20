@@ -5,11 +5,5 @@ class UserEntity {
   final String role;
   final String? phoneNumber;
 
-  UserEntity({
-    required this.id,
-    required this.email,
-    required this.name,
-    required this.role,
-    this.phoneNumber,
-  });
+  UserEntity({required this.id, required this.email, required this.name, required this.role, this.phoneNumber});
 }

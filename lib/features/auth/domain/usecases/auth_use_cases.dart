@@ -4,15 +4,14 @@ import 'package:foodexpress_mobile/features/auth/domain/repositories/auth_reposi
 
 class AuthUseCases {
   final AuthRepository repository;
+
   AuthUseCases(this.repository);
 
-  Future<Either<String, void>> login(String email, String password) =>
-      repository.login(email, password);
+  Future<Either<String, void>> login(String email, String password) => repository.login(email, password);
 
   Future<Either<String, void>> sendOtp(String email) => repository.sendOtp(email);
 
-  Future<Either<String, String>> verifyOtp(String email, String code) =>
-      repository.verifyOtp(email, code);
+  Future<Either<String, String>> verifyOtp(String email, String code) => repository.verifyOtp(email, code);
 
   Future<Either<String, void>> register(
     String name,

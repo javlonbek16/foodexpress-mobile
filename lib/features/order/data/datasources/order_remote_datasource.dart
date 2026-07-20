@@ -10,7 +10,7 @@ class OrderRemoteDatasource {
 
   OrderRemoteDatasource(DioClient client) : dio = client.dio;
 
-  Future<List<OrderModel>> getOrders() async {
+  Future<dynamic> getOrders() async {
     return NetworkExecutor.execute(() async {
       final response = await dio.get(AppEndpoints.orderApi);
       print(response.data);
@@ -19,7 +19,7 @@ class OrderRemoteDatasource {
     });
   }
 
-  Future<OrderModel> postOrder(OrderRequestModel request) async {
+  Future<dynamic> postOrder(OrderRequestModel request) async {
     return NetworkExecutor.execute(() async {
       final response = await dio.post(AppEndpoints.orderApi, data: request.toJson());
 
