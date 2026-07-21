@@ -1,0 +1,61 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:foodexpress_mobile/infrastructure/extensions/price_extension.dart';
+import 'package:foodexpress_mobile/presentation/assets/res/app_colors.dart';
+import 'package:foodexpress_mobile/presentation/assets/res/app_text_styles.dart';
+import 'package:foodexpress_mobile/application/cart/cart_bloc.dart';
+import 'package:foodexpress_mobile/application/cart/cart_state.dart';
+
+class CartFab extends StatelessWidget {
+  final VoidCallback onPressed;
+
+  const CartFab({super.key, required this.onPressed});
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocBuilder<CartBloc, CartState>(
+      builder: (context, state) {
+        if (state.cartItems.isEmpty) {
+          return const SizedBox.shrink();
+        }
+
+        final restaurantName = state.cartItems.first.name;
+
+        final totalItems = state.cartItems.fold<int>(0, (sum, item) => sum + item.quantity);
+
+        final totalPrice = state.cartItems.fold<double>(0, (sum, item) => sum + item.price * item.quantity);
+
+        return FloatingActionButton.extended(
+          onPressed: onPressed,
+          icon: Stack(
+            clipBehavior: Clip.none,
+            children: [
+              const Icon(Icons.shopping_cart),
+
+              Positioned(
+                right: -6,
+                top: -6,
+                child: Container(
+                  padding: const EdgeInsets.all(4),
+                  decoration: BoxDecoration(color: AppColors.error, shape: BoxShape.circle),
+                  child: Text(
+                    totalItems.toString(),
+                    style: AppTextStyles.restaurantName.copyWith(color: AppColors.scaffold, fontSize: 10),
+                  ),
+                ),
+              ),
+            ],
+          ),
+          label: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(restaurantName, style: const TextStyle(fontWeight: FontWeight.bold)),
+              Text(totalPrice.formattedPrice, style: AppTextStyles.status.copyWith(color: AppColors.scaffold)),
+            ],
+          ),
+        );
+      },
+    );
+  }
+}

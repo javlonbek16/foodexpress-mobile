@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:foodexpress_mobile/core/extensions/price_extension.dart';
-import 'package:foodexpress_mobile/infrastructure/utils/app_colors.dart';
-import 'package:foodexpress_mobile/infrastructure/utils/app_text_styles.dart';
+import 'package:foodexpress_mobile/infrastructure/extensions/price_extension.dart';
+import 'package:foodexpress_mobile/presentation/assets/res/app_colors.dart';
+import 'package:foodexpress_mobile/presentation/assets/res/app_text_styles.dart';
 import 'package:foodexpress_mobile/presentation/pages/home/components/image_widget.dart';
 
 class FoodCardWidget extends StatelessWidget {
