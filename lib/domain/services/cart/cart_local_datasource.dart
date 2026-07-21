@@ -1,6 +1,6 @@
 import 'package:foodexpress_mobile/infrastructure/models/cart/cart_item_model.dart';
 
-abstract class CartRepository {
+abstract class CartLocalDatasource {
   Future<List<CartItemModel>> getCartItems();
 
   Future<void> addToCart(CartItemModel item);

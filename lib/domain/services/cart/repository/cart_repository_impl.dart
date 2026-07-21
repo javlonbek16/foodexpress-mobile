@@ -1,5 +1,5 @@
-import 'package:foodexpress_mobile/features/cart/data/datasources/cart_local_datasource_impl.dart';
-import 'package:foodexpress_mobile/features/cart/data/models/cart_item_model.dart';
+import 'package:foodexpress_mobile/domain/services/cart/cart_local_datasource_impl.dart';
+import 'package:foodexpress_mobile/infrastructure/models/cart/cart_item_model.dart';
 import 'package:foodexpress_mobile/domain/services/cart/repository/cart_repository.dart';
 
 class CartRepositoryImpl implements CartRepository {
